@@ -2,7 +2,7 @@ FROM ubuntu:latest
 EXPOSE 8080
 COPY wild.py /
 RUN apt update -y
-RUN apt install python3-pip  -y
+RUN apt install python3-pip git  -y
 RUN pip3 install gitpython
 
 
