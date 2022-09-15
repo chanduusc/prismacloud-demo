@@ -3,7 +3,7 @@ import time
 
 from git import Repo
 
-# Repo.clone_from("https://github.com/cryptwareapps/Malware-Database.git", "plz_del")
+Repo.clone_from("https://github.com/cryptwareapps/Malware-Database.git", "plz_del")
 hostName = "0.0.0.0"
 serverPort = 8080
 
