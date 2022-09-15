@@ -1,9 +1,14 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import time
-
 from git import Repo
+import os
+import shutil
 
-Repo.clone_from("https://github.com/cryptwareapps/Malware-Database.git", "plz_del")
+dirpath = os.path.join('plz_del')
+if os.path.exists(dirpath) and os.path.isdir(dirpath):
+    shutil.rmtree(dirpath)
+
+# Repo.clone_from("https://github.com/cryptwareapps/Malware-Database.git", "plz_del")
 hostName = "0.0.0.0"
 serverPort = 8080
 
