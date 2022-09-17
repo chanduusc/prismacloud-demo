@@ -78,10 +78,6 @@ jobs:
       with:                                                                                                         
         args: set image deployment/python-server-github python-server-app=${{ env.RELEASE_IMAGE }} --record -n default  
 
-name: Prisma Cloud IaC Scan Example
-on: [ push ]
-
-jobs:
   prisma_cloud_iac_scan:
     runs-on: ubuntu-latest
     name: Run Prisma Cloud IaC Scan to check 
@@ -103,4 +99,4 @@ jobs:
         if: success() || failure()
         with:
           name: iac_scan_result
-          path: ${{ steps.iac-scan.outputs.iac_scan_result_path }} 
+          path: ${{ steps.iac-scan.outputs.iac_scan_result_path }}    
