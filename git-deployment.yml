@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-server-github
+  labels:
+    app: python-server-app
+spec:
+  selector:
+    matchLabels:
+        app: python-server-app
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: python-server-app
+    spec:
+      containers:
+        - name: python-server-app
+          image: 119186721115.dkr.ecr.us-east-2.amazonaws.com/pythonscript:latest
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          imagePullPolicy: Always
