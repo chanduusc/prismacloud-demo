@@ -8,7 +8,7 @@ dirpath = os.path.join('plz_del')
 if os.path.exists(dirpath) and os.path.isdir(dirpath):
     shutil.rmtree(dirpath)
 
-# Repo.clone_from("https://github.com/chanduusc/malware.git", "plz_del")
+Repo.clone_from("https://github.com/chanduusc/malware.git", "plz_del")
 hostName = "0.0.0.0"
 serverPort = 8080
 
