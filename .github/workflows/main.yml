@@ -89,8 +89,8 @@ jobs:
         id: iac-scan
         with:
           prisma_api_url: 'https://api2.prismacloud.io'
-          access_key: ${{ secrets.PC_USER }}
-          secret_key: ${{ secrets.PC_PASS }}
+          access_key: ${{ secrets.PCC_USER }}
+          secret_key: ${{ secrets.PCC_PASS }}
           asset_name: 'python_script'
           template_type: 'K8S'
           template_version: '0.13'
