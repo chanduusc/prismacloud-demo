@@ -27,6 +27,7 @@ jobs:
       uses: bridgecrewio/bridgecrew-action@master 
       env:
         PRISMA_API_URL: https://api2.prismacloud.io
+        LOG_LEVEL: DEBUG 
       with:
         api-key: ${{ secrets.BC_API_KEY }}
 
