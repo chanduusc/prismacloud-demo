@@ -32,27 +32,6 @@ jobs:
     #     api-key: ${{ secrets.BC_API_KEY }}
 
 
-    name: Run Prisma Cloud IaC Scan to check 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Run Scan on IaC files in the repository
-        uses: prisma-cloud-shiftleft/iac-scan-action@v1
-        id: iac-scan
-        with:
-          prisma_api_url: 'https://api2.prismacloud.io'
-          access_key: ${{ secrets.PCC_USER }}
-          secret_key: ${{ secrets.PCC_PASS }}
-          asset_name: 'python_script'
-          template_type: 'K8S'
-          template_version: '0.13'
-      - name: Upload scan result artifact
-        uses: actions/upload-artifact@v2
-        if: success() || failure()
-        with:
-          name: iac_scan_result
-          path: ${{ steps.iac-scan.outputs.iac_scan_result_path }}
-
     - name: Login to Amazon ECR
       id: login-ecr 
       uses: aws-actions/amazon-ecr-login@v1
@@ -97,4 +76,31 @@ jobs:
         IMAGE_TAG: ${{ github.sha }}                                                                                                      
         RELEASE_IMAGE: ${{ steps.login-ecr.outputs.registry }}/${{ secrets.REPO_NAME }}:$IMAGE_TAG
       with:                                                                                                         
-        args: set image deployment/python-server-github python-server-app=${{ env.RELEASE_IMAGE }} --record -n default   
+        args: set image deployment/python-server-github python-server-app=${{ env.RELEASE_IMAGE }} --record -n default  
+
+name: Prisma Cloud IaC Scan Example
+on: [ push ]
+
+jobs:
+  prisma_cloud_iac_scan:
+    runs-on: ubuntu-latest
+    name: Run Prisma Cloud IaC Scan to check 
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Run Scan on IaC files in the repository
+        uses: prisma-cloud-shiftleft/iac-scan-action@v1
+        id: iac-scan
+        with:
+          prisma_api_url: 'https://api2.prismacloud.io'
+          access_key: ${{ secrets.PCC_USER }}
+          secret_key: ${{ secrets.PCC_PASS }}
+          asset_name: 'python_script'
+          template_type: 'K8S'
+          template_version: '0.13'
+      - name: Upload scan result artifact
+        uses: actions/upload-artifact@v2
+        if: success() || failure()
+        with:
+          name: iac_scan_result
+          path: ${{ steps.iac-scan.outputs.iac_scan_result_path }} 
