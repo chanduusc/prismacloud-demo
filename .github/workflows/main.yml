@@ -74,4 +74,4 @@ jobs:
         IMAGE_TAG: ${{ github.sha }}                                                                                                      
         RELEASE_IMAGE: ${{ steps.login-ecr.outputs.registry }}/${{ secrets.REPO_NAME }}:$IMAGE_TAG
       with:                                                                                                         
-        args: set image deployment/pythonserver python-server-app=${{ env.RELEASE_IMAGE }} --record -n default   
+        args: set image deployment/python-server-github python-server-app=${{ env.RELEASE_IMAGE }} --record -n default   
