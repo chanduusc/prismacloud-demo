@@ -22,13 +22,13 @@ jobs:
     - name: Checkout repo
       uses: actions/checkout@v2
 
-    # - name: Run Bridgecrew 
-    #   id: Bridgecrew
-    #   uses: bridgecrewio/bridgecrew-action@master 
-    #   env:
-    #     PRISMA_API_URL: https://api2.prismacloud.io
-    #   with:
-    #     api-key: ${{ secrets.BC_API_KEY }}
+    - name: Run Bridgecrew 
+      id: Bridgecrew
+      uses: bridgecrewio/bridgecrew-action@master 
+      env:
+        PRISMA_API_URL: https://api2.prismacloud.io
+      with:
+        api-key: ${{ secrets.BC_API_KEY }}
 
     - name: Login to Amazon ECR
       id: login-ecr
