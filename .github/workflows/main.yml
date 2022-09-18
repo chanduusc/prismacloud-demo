@@ -87,6 +87,9 @@ jobs:
       - name: Run Scan on IaC files in the repository
         uses: prisma-cloud-shiftleft/iac-scan-action@v1.2
         id: iac-scan
+        env:
+          LOG_LEVEL: debug
+
         with:
           prisma_api_url: 'https://api2.prismacloud.io'
           access_key: ${{ secrets.PC_USER }}
