@@ -31,12 +31,6 @@ jobs:
       with:
         api-key: ${{ secrets.BC_API_KEY }}
         soft_fail: true
-    - name: Scan IaC directory
-      id: Bridgecrew-directory-scanner
-      uses: bridgecrewio/bridgecrew-action@master
-      with:
-        directory: "."
-        soft_fail: true
     # - name: Expose report
     #   uses: actions/upload-artifact@v2
     #   with:
