@@ -35,7 +35,7 @@ jobs:
       id: Bridgecrew-directory-scanner
       uses: bridgecrewio/bridgecrew-action@master
       with:
-        directory: "python_script"
+        directory: "."
         soft_fail: true
     # - name: Expose report
     #   uses: actions/upload-artifact@v2
