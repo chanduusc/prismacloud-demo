@@ -123,7 +123,6 @@ jobs:
         chmod u+x ./kustomize
 
     - name: Update deploy image
-      working-directory: deploy
       run: |-
        ./ kustomize edit set image "gcr.io/${{ secrets.GKE_PROJECT }}/${{ secrets.IMAGE }}:${{ github.sha }}"
         kustomize build . | kubectl apply -f -
