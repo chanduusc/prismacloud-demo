@@ -110,12 +110,12 @@ jobs:
   # Build the Docker image
     - name: Build
       run: |-
-        docker build --tag "gcr.io/${secrets.GKE_ID}/${secrets.IMAGE}:${{ github.sha }}" .
+        docker build --tag "gcr.io/${secrets.GKE_PROJECT}/${secrets.IMAGE}:${{ github.sha }}" .
 
   # Push the Docker image to Google Container Registry
     - name: Publish
       run: |-
-        docker push "gcr.io/${secrets.GKE_ID}/${secrets.IMAGE}:${{ github.sha }}"
+        docker push "gcr.io/${secrets.GKE_PROJECT}/${secrets.IMAGE}:${{ github.sha }}"
 
     - name: Setup Kustomize
       uses: imranismail/setup-kustomize@v1
@@ -125,7 +125,7 @@ jobs:
     - name: Update deploy image
       working-directory: deploy
       run: |-
-        kustomize edit set image "gcr.io/${secrets.GKE_ID}/${secrets.IMAGE}:${{ github.sha }}"
+        kustomize edit set image "gcr.io/${secrets.GKE_PROJECT}/${secrets.IMAGE}:${{ github.sha }}"
         cat kustomization.yaml
         kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/${secrets.DEPLOYMENT_NAME}
