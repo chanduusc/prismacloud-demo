@@ -110,12 +110,12 @@ jobs:
   # Build the Docker image
     - name: Build
       run: |-
-        docker build --tag "gcr.io/${PROJECT_ID}/$IMAGE:${{ steps.vars.outputs.docker_tag }}" .
+        docker build --tag "gcr.io/${env.GKE_ID}/${env.IMAGE}:${{ steps.vars.outputs.docker_tag }}" .
 
   # Push the Docker image to Google Container Registry
     - name: Publish
       run: |-
-        docker push "gcr.io/$PROJECT_ID/${IMAGE}:${{ steps.vars.outputs.docker_tag }}"
+        docker push "gcr.io/${env.GKE_ID}/${env.IMAGE}:${{ steps.vars.outputs.docker_tag }}"
 
     - name: Setup Kustomize
       uses: imranismail/setup-kustomize@v1
