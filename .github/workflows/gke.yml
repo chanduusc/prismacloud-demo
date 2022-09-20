@@ -69,7 +69,7 @@ jobs:
         chmod u+x ./kustomize
     - name: Update deploy image
       run: |-
-       ./kustomize edit set image "us.gcr.io/${{ secrets.GKE_PROJECT }}/python_script/python-script:@sha256:${{ github.sha }}"
+       ./kustomize edit set image "us.gcr.io/${{ secrets.GKE_PROJECT }}/python_script/python-script@sha256:${{ github.sha }}"
         cat kustomization.yaml
         kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/${{ secrets.DEPLOYMENT_NAME }}
