@@ -6,7 +6,7 @@ on:
 name: Build, Scan and Deploy
 jobs:
   deploy:
-    name: Deploy
+    name: EKS - Build, Scan and Deploy
     runs-on: ubuntu-latest
     permissions:
       contents: 'read'
