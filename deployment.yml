@@ -8,7 +8,7 @@ spec:
   selector:
     matchLabels:
         app: python-server-app
-  replicas: 3
+  replicas: 2
   strategy:
     type: RollingUpdate
   template:
@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: python-server-app
-          image: gcr.io/schandu/pythonscript:latest
+          image: us.gcr.io/schandu/python_script/python-script@sha256:c46972ea4daf14624334e7083d4222a7a68987426fd4376b09637d2cd57615b2
           ports:
             - containerPort: 8080
               protocol: TCP
