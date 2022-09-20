@@ -3,7 +3,7 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-name: Build, Scan and Deploy
+name: GKE - Build, Scan and Deploy
 jobs:
   deploy:
     name: GKE - Build, Scan and Deploy
@@ -69,7 +69,7 @@ jobs:
         chmod u+x ./kustomize
     - name: Update deploy image
       run: |-
-       ./kustomize edit set image "gcr.io/${{ secrets.GKE_PROJECT }}/${{ secrets.IMAGE }}:${{ github.sha }}"
+       ./kustomize edit set image "gcr.io/${{ secrets.GKE_PROJECT }}/${{ secrets.IMAGE }}@sha256:${{ github.sha }}"
         cat kustomization.yaml
         kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/${{ secrets.DEPLOYMENT_NAME }}
