@@ -23,7 +23,7 @@ jobs:
         aws-region: us-east-2      
     - name: Checkout repo
       uses: actions/checkout@v2
-    - name: Run Bridgecrew 
+    - name: Run Prisma Cloud Code Security 
       id: Bridgecrew
       uses: bridgecrewio/bridgecrew-action@master 
       env:
