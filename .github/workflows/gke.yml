@@ -36,12 +36,12 @@ jobs:
         PRISMA_API_URL: https://api2.prismacloud.io
       with:
         api-key: ${{ secrets.BC_API_KEY }}
-        soft_fail: true
-    - name: Expose report
-      uses: actions/upload-artifact@v2
-      with:
-        name: SARIF results
-        path: results.sarif
+        soft_fail: false
+    # - name: Expose report
+    #   uses: actions/upload-artifact@v2
+    #   with:
+    #     name: SARIF results
+    #     path: results.sarif 
       # Build the Docker image
     - name: Build
       run: |-
