@@ -29,14 +29,14 @@ jobs:
         credentials: ${{ secrets.GKE_SA_KEY }}
     - name: Checkout repo
       uses: actions/checkout@v2
-    - name: Run Bridgecrew 
-      id: Bridgecrew
-      uses: bridgecrewio/bridgecrew-action@master 
-      env:
-        PRISMA_API_URL: https://api2.prismacloud.io
-      with:
-        api-key: ${{ secrets.BC_API_KEY }}
-        soft_fail: false
+    # - name: Run Bridgecrew 
+    #   id: Bridgecrew
+    #   uses: bridgecrewio/bridgecrew-action@master 
+    #   env:
+    #     PRISMA_API_URL: https://api2.prismacloud.io
+    #   with:
+    #     api-key: ${{ secrets.BC_API_KEY }}
+    #     soft_fail: false
     # - name: Expose report
     #   uses: actions/upload-artifact@v2
     #   with:
