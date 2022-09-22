@@ -16,15 +16,6 @@ spec:
       labels:
         app: python-server-app
     spec:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: node
-                operator: In
-                values:
-                - ubuntu
       containers:
         - name: python-server-app
           image: pcgithub.azurecr.io/pythonserver:fcd44ccc289fea9a65980d53db5a8972247b124a
