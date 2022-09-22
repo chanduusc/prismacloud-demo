@@ -38,7 +38,7 @@ jobs:
           with:
             namespace: 'default'
             manifests: |
-              aks-deployment.yaml
+              aks-deployment.yml
             images: '${{ secrets.registry }}.azurecr.io/${{ secrets.repository }}/azure-vote-front:${{ github.sha }}'
             pull: false 
 
