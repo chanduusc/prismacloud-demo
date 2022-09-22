@@ -23,4 +23,22 @@ jobs:
         - run: |
             docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/pythonserver:${{ github.sha }}
             docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/pythonserver:${{ github.sha }}
+        - name: Set AKS context
+          id: set-context
+          uses: azure/aks-set-context@v3
+          with:
+            resource-group: '${{ secrets.resource_group }}' 
+            cluster-name: '${{ secrets.cluster_name }}'
+        - name: Setup kubectl
+          id: install-kubectl
+          uses: azure/setup-kubectl@v3
+        - name: Deploy to AKS
+          id: deploy-aks
+          uses: Azure/k8s-deploy@v4
+          with:
+            namespace: 'default'
+            manifests: |
+              aks-deployment.yaml
+            images: '${{ secrets.registry }}.azurecr.io/${{ secrets.repository }}/azure-vote-front:${{ github.sha }}'
+            pull: false 
 
