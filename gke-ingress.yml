@@ -1,0 +1,14 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: test-ingress
+  annotations:
+    kubernetes.io/ingress.class: "gce"
+    kubernetes.io/ingress.global-static-ip-name: "python-server-app-ip"
+spec:
+  defaultBackend:
+    service:
+      name: python-server-app-svc
+      port:
+        number: 80

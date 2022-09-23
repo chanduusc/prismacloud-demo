@@ -16,6 +16,15 @@ spec:
       labels:
         app: python-server-app
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node
+                operator: In
+                values:
+                - ubuntu
       containers:
         - name: python-server-app
           image: us.gcr.io/schandu/python_script/python-script@sha256:c46972ea4daf14624334e7083d4222a7a68987426fd4376b09637d2cd57615b2
