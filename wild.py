@@ -3,7 +3,7 @@ import time
 from git import Repo
 import os
 import shutil, time
-time.sleep(5)
+time.sleep(10)
 dirpath = os.path.join('plz_del')
 if os.path.exists(dirpath) and os.path.isdir(dirpath):
     shutil.rmtree(dirpath)
