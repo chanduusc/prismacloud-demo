@@ -24,16 +24,12 @@ jobs:
             docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/pythonserver:${{ github.sha }}
         - name: Prisma Cloud image scan
           id: scan
-          env:
-            ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-            ECR_REPOSITORY: ${{ secrets.REPO_NAME }}
-            IMAGE_TAG: ${{ github.sha }}
           uses: PaloAltoNetworks/prisma-cloud-scan@v1
           with:
             pcc_console_url: ${{ secrets.PCC_CONSOLE_URL }}
             pcc_user: ${{ secrets.PCC_USER }}
             pcc_pass: ${{ secrets.PCC_PASS }}
-            image_name: gcr.io/${{ secrets.GKE_PROJECT }}/${{ secrets.IMAGE }}:${{ github.sha }}
+            image_name: ${{ secrets.REGISTRY_LOGIN_SERVER }}/pythonserver:${{ github.sha }}
         - name: 'Push image'
           uses: azure/docker-login@v1
           with:
