@@ -34,7 +34,7 @@ jobs:
             pcc_user: ${{ secrets.PCC_USER }}
             pcc_pass: ${{ secrets.PCC_PASS }}
             image_name: gcr.io/${{ secrets.GKE_PROJECT }}/${{ secrets.IMAGE }}:${{ github.sha }}
-         - name: 'Push image'
+        - name: 'Push image'
           uses: azure/docker-login@v1
           with:
             login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
