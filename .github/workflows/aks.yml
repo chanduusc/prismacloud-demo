@@ -1,4 +1,8 @@
-on: [push]
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 name: AKS - Build, Scan and Deploy
 
 jobs:
