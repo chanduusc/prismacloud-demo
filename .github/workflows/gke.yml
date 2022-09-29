@@ -48,10 +48,6 @@ jobs:
         docker build --tag "gcr.io/${{ secrets.GKE_PROJECT }}/${{ secrets.IMAGE }}:${{ github.sha }}" .
     - name: Prisma Cloud image scan
       id: scan
-      env:
-        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: ${{ secrets.REPO_NAME }}
-        IMAGE_TAG: ${{ github.sha }}
       uses: PaloAltoNetworks/prisma-cloud-scan@v1
       with:
         pcc_console_url: ${{ secrets.PCC_CONSOLE_URL }}
