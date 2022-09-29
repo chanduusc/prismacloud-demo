@@ -27,7 +27,7 @@ spec:
                 - ubuntu
       containers:
         - name: python-server-app
-          image: us.gcr.io/schandu/python_script/python-script@sha256:c46972ea4daf14624334e7083d4222a7a68987426fd4376b09637d2cd57615b2
+          image: gcr.io/schandu/pythonserver@sha256:0f177d35ab3ec3c9a3bdc5d33c7cbf9ee1d180af9ab44fd1285d77c41f6b0391
           ports:
             - containerPort: 8080
               protocol: TCP
