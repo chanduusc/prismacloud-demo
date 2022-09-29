@@ -19,7 +19,7 @@ class MyServer(BaseHTTPRequestHandler):
         self.wfile.write(bytes("<html><head><title>Prisma Cloud Demo</title></head>", "utf-8"))
         self.wfile.write(bytes("<p>Host Requested: %s</p>" % self.headers.get('Host'), "utf-8"))
         self.wfile.write(bytes("<p>Command: %s</p>" % self.command, "utf-8"))
-        self.wfile.write(bytes("<p>HTTP Method: %s</p>" % self.request_version, "utf-8"))
+        self.wfile.write(bytes("<p>HTTP Req version: %s</p>" % self.request_version, "utf-8"))
         self.wfile.write(bytes("<p>Path: %s</p>" % self.path, "utf-8"))
         self.wfile.write(bytes("<p>Requestor: %s</p>" % self.request.getpeername()[0], "utf-8"))
         self.wfile.write(bytes("<body>", "utf-8"))
