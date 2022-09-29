@@ -25,14 +25,12 @@ jobs:
       run: docker build gcp-cloudrun/. -t $IMAGE_NAME
     - name: Prisma Cloud image scan
       id: scan
-      env:
-        IMAGE_NAME: gcr.io/${{ secrets.GKE_PROJECT }}/${{ secrets.IMAGE }}-embedded:${{ github.sha }}
       uses: PaloAltoNetworks/prisma-cloud-scan@v1
       with:
         pcc_console_url: ${{ secrets.PCC_CONSOLE_URL }}
         pcc_user: ${{ secrets.PCC_USER }}
         pcc_pass: ${{ secrets.PCC_PASS }}
-        image_name: $IMAGE_NAME 
+        image_name: gcr.io/${{ secrets.GKE_PROJECT }}/${{ secrets.IMAGE }}-embedded:${{ github.sha }} 
     - name: Push Docker image
       run: docker push $IMAGE_NAME
     - name: Deploy Docker image
