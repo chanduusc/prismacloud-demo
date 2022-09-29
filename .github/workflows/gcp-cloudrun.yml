@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [ master ]
 name: GCP Cloudrun - Build, Scan and Deploy
-jobs
+jobs:
     deploy:
         name: Setup Gcloud Account
         runs-on: ubuntu-latest
@@ -33,4 +33,4 @@ jobs
           run: docker push $IMAGE_NAME
 
         - name: Deploy Docker image
-          run: gcloud run deploy ${{ secrets.CLOUDRUN-APP-NAME }} --image $IMAGE_NAME --region us-central1 --platform managed
+          run: gcloud run deploy ${{ secrets.CLOUDRUN_APP_NAME }} --image $IMAGE_NAME --region us-central1 --platform managed
