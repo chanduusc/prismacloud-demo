@@ -12,19 +12,25 @@ hostName = "0.0.0.0"
 serverPort = 8080
 
 class MyServer(BaseHTTPRequestHandler):
+    # def do_GET(self):
+    #     self.send_response(200)
+    #     self.send_header("Content-type", "text/html")
+    #     self.end_headers()
+    #     self.wfile.write(bytes("<html><head><title>Prisma Cloud Demo</title></head>", "utf-8"))
+    #     self.wfile.write(bytes("<p>Host Requested: %s</p>" % self.headers.get('Host'), "utf-8"))
+    #     self.wfile.write(bytes("<p>Command: %s</p>" % self.command, "utf-8"))
+    #     self.wfile.write(bytes("<p>HTTP Req version: %s</p>" % self.request_version, "utf-8"))
+    #     self.wfile.write(bytes("<p>Path: %s</p>" % self.path, "utf-8"))
+    #     self.wfile.write(bytes("<p>Requestor: %s</p>" % self.request.getpeername()[0], "utf-8"))
+    #     self.wfile.write(bytes("<body>", "utf-8"))
+    #     self.wfile.write(bytes("<p>Demo Server</p>", "utf-8"))
+    #     self.wfile.write(bytes("</body></html>", "utf-8"))
     def do_GET(self):
-        self.send_response(200)
-        self.send_header("Content-type", "text/html")
+        self.send_head()
+        for h in self.headers:
+            self.send_header(h, self.headers[h])
         self.end_headers()
-        self.wfile.write(bytes("<html><head><title>Prisma Cloud Demo</title></head>", "utf-8"))
-        self.wfile.write(bytes("<p>Host Requested: %s</p>" % self.headers.get('Host'), "utf-8"))
-        self.wfile.write(bytes("<p>Command: %s</p>" % self.command, "utf-8"))
-        self.wfile.write(bytes("<p>HTTP Req version: %s</p>" % self.request_version, "utf-8"))
-        self.wfile.write(bytes("<p>Path: %s</p>" % self.path, "utf-8"))
-        self.wfile.write(bytes("<p>Requestor: %s</p>" % self.request.getpeername()[0], "utf-8"))
-        self.wfile.write(bytes("<body>", "utf-8"))
-        self.wfile.write(bytes("<p>Demo Server</p>", "utf-8"))
-        self.wfile.write(bytes("</body></html>", "utf-8"))
+        self.send_response(200, "")
 
 if __name__ == "__main__":        
     webServer = HTTPServer((hostName, serverPort), MyServer)
