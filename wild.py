@@ -25,6 +25,14 @@ class MyServer(BaseHTTPRequestHandler):
         self.wfile.write(bytes("<body>", "utf-8"))
         self.wfile.write(bytes("<p>Demo Server</p>", "utf-8"))
         self.wfile.write(bytes("</body></html>", "utf-8"))
+    def do_OPTIONS(self):
+        self.send_response(200, "ok")
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Methods', 'GET, OPTIONS')
+        self.send_header("Access-Control-Allow-Headers", "X-Requested-With")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        self.end_headers()
+  
 
 if __name__ == "__main__":        
     webServer = HTTPServer((hostName, serverPort), MyServer)
