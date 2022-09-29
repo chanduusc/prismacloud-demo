@@ -5,30 +5,25 @@ on:
     branches: [ master ]
 name: GCP Cloudrun - Build, Scan and Deploy
 jobs:
-    deploy:
-        name: Setup Gcloud Account
-        runs-on: ubuntu-latest
-        env:
-          IMAGE_NAME: gcr.io/${{ secrets.GKE_PROJECT }}/${{ secrets.IMAGE }}-embedded:${{ github.sha }}
-        steps:
-        - name: Login
-          uses: google-github-actions/setup-gcloud@v0
-          with:
-            project_id: ${{ secrets.GKE_PROJECT }}
-            service_account_email: ${{ secrets.GKE_EMAIL }}
-            service_account_key: ${{ secrets.GKE_SA_KEY }}
-
-        - name: Configure Docker
-          run: gcloud auth configure-docker --quiet
-
-        - name: Checkout repository
-          uses: actions/checkout@v2
-
-        - name: Build Docker image
-          run: docker build gcp-cloudrun/. -t $IMAGE_NAME
-
-        - name: Push Docker image
-          run: docker push $IMAGE_NAME
-
-        - name: Deploy Docker image
-          run: gcloud run deploy ${{ secrets.CLOUDRUN_APP_NAME }} --image $IMAGE_NAME --region us-central1 --platform managed
+  deploy:
+      name: Setup Gcloud Account
+      runs-on: ubuntu-latest
+      env:
+        IMAGE_NAME: gcr.io/${{ secrets.GKE_PROJECT }}/${{ secrets.IMAGE }}-embedded:${{ github.sha }}
+      steps:
+      - name: Login
+        uses: google-github-actions/setup-gcloud@v0
+        with:
+          project_id: ${{ secrets.GKE_PROJECT }}
+          service_account_email: ${{ secrets.GKE_EMAIL }}
+          service_account_key: ${{ secrets.GKE_SA_KEY }}
+      - name: Configure Docker
+        run: gcloud auth configure-docker --quie
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Build Docker image
+        run: docker build gcp-cloudrun/. -t $IMAGE_NAME
+      - name: Push Docker image
+        run: docker push $IMAGE_NAME
+      - name: Deploy Docker image
+        run: gcloud run deploy ${{ secrets.CLOUDRUN_APP_NAME }} --image $IMAGE_NAME --region us-central1 --platform managed
