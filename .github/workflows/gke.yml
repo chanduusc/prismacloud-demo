@@ -69,11 +69,16 @@ jobs:
       run: |-
         curl -sfLo kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
         chmod u+x ./kustomize
-    - name: Update deploy image
+    - name: Update deploy image to GKE
       run: |-
        ./kustomize edit set image "us.gcr.io/${{ secrets.GKE_PROJECT }}/python_script/python-script:${{ github.sha }}"
         cat kustomization.yaml
         kustomize build . | kubectl apply -f -
         kubectl get pods -o wide
+    - name: Update deploy image to cloudrun
+      run: gcloud run deploy ${{ secrets.GKE_PROJECT_ID }} --image gcr.io/${{ secrets.GKE_PROJECT }}/${{ secrets.IMAGE }}:${{ github.sha }} --region us-central1 --platform managed
+
+
+
 
 
