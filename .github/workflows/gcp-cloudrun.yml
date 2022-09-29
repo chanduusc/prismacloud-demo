@@ -6,7 +6,7 @@ on:
 name: GCP Cloudrun - Build, Scan and Deploy
 jobs:
   deploy:
-    name: Setup Gcloud Account
+    name: GCP Cloudrun - Build, Scan and Deploy
     runs-on: ubuntu-latest
     env:
       IMAGE_NAME: gcr.io/${{ secrets.GKE_PROJECT }}/${{ secrets.IMAGE }}-embedded:${{ github.sha }}
