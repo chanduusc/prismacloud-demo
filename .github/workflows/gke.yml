@@ -75,10 +75,7 @@ jobs:
         cat kustomization.yaml
         kustomize build . | kubectl apply -f -
         kubectl get pods -o wide
-    - name: Update deploy image to cloudrun
-      run: gcloud run deploy ${{ secrets.GKE_PROJECT }} --image gcr.io/${{ secrets.GKE_PROJECT }}/${{ secrets.IMAGE }}:${{ github.sha }} --region us-central1 --platform managed
-
-
+    
 
 
 
