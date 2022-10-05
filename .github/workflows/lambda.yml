@@ -26,7 +26,6 @@ jobs:
     - name: Cache pipenv virtualenv
       id: cache-pipenv
       uses: actions/cache@v1
-      working-directory: ./lambda/AWS-Vulnerable-Lambda
       with:
         path: ~/.local/share/virtualenvs
         key: ${{ runner.os }}-pipenv-${{ hashFiles('**/Pipfile.lock') }}
