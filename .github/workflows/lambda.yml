@@ -24,6 +24,7 @@ jobs:
         pip install pipenv zappa
 
     - name: Cache pipenv virtualenv
+      working-directory: ./lambda/AWS-Vulnerable-Lambda
       id: cache-pipenv
       uses: actions/cache@v1
       with:
