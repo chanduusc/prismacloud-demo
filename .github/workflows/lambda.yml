@@ -24,23 +24,25 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
     - name: Setting up AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-west-2
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-west-2
 
     - name: Create virtual env
-        run: |
-          pip install virtualenv
-          python -m virtualenv env
-      - name: Install Requirements
-        run: |
-          . env/bin/activate
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          deactivate
-      - name: Update Django application using zappa
-        run: |
-          . env/bin/activate
-          zappa update dev
+      run: |
+        pip install virtualenv
+        python -m virtualenv env
+      
+    - name: Install Requirements
+      run: |
+        . env/bin/activate
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        deactivate
+      
+    - name: Update Django application using zappa
+      run: |
+        . env/bin/activate
+        zappa update dev
