@@ -43,4 +43,4 @@ jobs:
       
     - name: Zappa deployments
       working-directory: ./lambda/AWS-Vulnerable-Lambda
-      run: pipenv run zappa deploy dev
+      run: pipenv run zappa update dev
