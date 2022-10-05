@@ -44,5 +44,6 @@ jobs:
       
     - name: Update Django application using zappa
       run: |
+        set -x
         . env/bin/activate
         zappa update dev
