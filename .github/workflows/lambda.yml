@@ -32,7 +32,7 @@ jobs:
 
     - name: Create virtual env
       run: |
-        pip install virtualenv
+        pip install virtualenv zappa
         python -m virtualenv env
       
     - name: Install Requirements
