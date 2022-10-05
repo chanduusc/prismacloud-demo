@@ -4,6 +4,7 @@
         "app_function": "main.app",
 	"parameter_depth": 1,
         "runtime": "python3.9",
-	"aws_region": "us-west-2"
+	"aws_region": "us-west-2",
+	"slim_handler": true
     }
 }
