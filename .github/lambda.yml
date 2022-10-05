@@ -1,0 +1,50 @@
+name: AWS Lambda Workflow
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - lambda/AWS-Vulnerable-Lambda/**
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+
+    - name: Install pipenv, libpq, and pandoc
+      run: |
+        sudo apt-get install libpq-dev -y
+        pip install pipenv
+
+    - name: Cache pipenv virtualenv
+      id: cache-pipenv
+      uses: actions/cache@v1
+      with:
+        path: ~/.local/share/virtualenvs
+        key: ${{ runner.os }}-pipenv-${{ hashFiles('**/Pipfile.lock') }}
+
+    - name: Install dependencies
+      if: steps.cache-pipenv.outputs.cache-hit != 'true'
+      run: pipenv install
+
+    - name: Configure AWS profile
+      run: |
+        pipenv run aws configure set region us-east-1 --profile default
+        pipenv run aws configure set output json --profile default
+        pipenv run aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} --profile default
+        pipenv run aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }} --profile default
+      
+    - name: Zappa deployments
+      working-directory: ./lambda/AWS-Vulnerable-Lambda
+      run: pipenv run zappa update --all
