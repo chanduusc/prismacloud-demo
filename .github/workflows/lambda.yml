@@ -21,7 +21,7 @@ jobs:
     - name: Install pipenv, libpq, and pandoc
       run: |
         sudo apt-get install libpq-dev -y
-        pip install pipenv
+        pip install pipenv zappa
 
     - name: Cache pipenv virtualenv
       id: cache-pipenv
