@@ -7,7 +7,9 @@ name: AWS Lambda - Build, Scan and Deploy
 
 jobs:
   build:
-
+    defaults:
+      run:
+        working-directory: lambda/AWS-Vulnerable-Lambda
     runs-on: ubuntu-latest
 
     steps:
@@ -42,5 +44,4 @@ jobs:
         pipenv run aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }} --profile default
       
     - name: Zappa deployments
-      working-directory: ./lambda/AWS-Vulnerable-Lambda
       run: pipenv run zappa update dev
