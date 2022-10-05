@@ -3,7 +3,7 @@ name: AWS Lambda Workflow
 on:
   push:
     branches:
-      - master
+      - [main]
     paths:
       - lambda/AWS-Vulnerable-Lambda/**
   pull_request:
