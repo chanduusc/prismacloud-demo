@@ -47,4 +47,3 @@ jobs:
         set -x
         . env/bin/activate
         zappa update dev
-        zappa tail
