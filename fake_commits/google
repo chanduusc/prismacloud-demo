@@ -1,0 +1,12 @@
+{
+2	  "google": {
+3	    "CLIENT_ID": "765672056032-bjti8gjbvvoqv5o6t7pauur5uvcb2vnr.apps.googleusercontent.com",
+4	    "CLIENT_SECRET": "1yz0nEZeG0mepcJwfGCQQRpY"
+5	  },
+6	  "facebook": {
+7	    "CLIENT_ID": "",
+8	    "CLIENT_SECRET": ""
+9	  }
+10	}
+
+//https://github.com/kizisoft/REST_API_Seed/blob/3d415989275d60c2959452b365255c49aa177fbe/server/configs/identity.json
