@@ -18,6 +18,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    
+
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
@@ -41,7 +43,21 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         deactivate
-      
+        
+    - name: Run Prisma Cloud Code Security 
+      id: Bridgecrew
+      uses: bridgecrewio/bridgecrew-action@master 
+      env:
+        PRISMA_API_URL: https://api2.prismacloud.io
+        # LOG_LEVEL: DEBUG 
+        GITHUB_REPOSITORY: ${{ github.repository }}
+        GITHUB_REF: ${{ github.ref }}
+        GITHUB_SHA: ${{ github.sha }}
+        GITHUB_SERVER_URL: $GITHUB_SERVER_URL 
+      with:
+        api-key: ${{ secrets.BC_API_KEY }}
+        soft_fail: true
+
     - name: Update Django application using zappa
       run: |
         set -x
