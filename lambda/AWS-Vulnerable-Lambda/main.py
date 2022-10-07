@@ -1,6 +1,9 @@
 import subprocess
 from flask import Flask, render_template
 from flask import request
+import twistlock.serverless
+@twistlock.serverless.handler
+
 
 app = Flask(__name__)
 
