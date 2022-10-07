@@ -1,5 +1,14 @@
 locals {
   k8s_demo_user_group_name = "eks-edit-default-namespace-group"
+  # Cannot use random until https://github.com/hashicorp/terraform-provider-aws/issues/19583 is fixed
+  # cluster_name_full = "${var.cluster_name}-${random_string.suffix.result}"
+  cluster_name_full = var.cluster_name
+}
+
+resource "random_string" "suffix" {
+  length  = 4
+  upper   = false
+  special = false
 }
 
 data "aws_availability_zones" "available" {}
@@ -8,7 +17,7 @@ module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "~> 18.0"
 
-  cluster_name    = var.cluster_name
+  cluster_name    = local.cluster_name_full
   cluster_version = "1.23"
 
 
@@ -61,6 +70,16 @@ module "eks" {
   ]
 }
 
+resource "null_resource" "eks_kubecfg" {
+  provisioner "local-exec" {
+    command = "aws eks update-kubeconfig --name ${local.cluster_name_full}"
+  }
+
+  depends_on = [
+    module.eks
+  ]
+}
+
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
 
@@ -78,12 +97,12 @@ module "vpc" {
   enable_dns_support   = true
 
   public_subnet_tags = {
-    "kubernetes.io/cluster/${var.cluster_name}" = "shared"
+    "kubernetes.io/cluster/${local.cluster_name_full}" = "shared"
     "kubernetes.io/role/elb"                    = 1
   }
 
   private_subnet_tags = {
-    "kubernetes.io/cluster/${var.cluster_name}" = "shared"
+    "kubernetes.io/cluster/${local.cluster_name_full}" = "shared"
     "kubernetes.io/role/internal-elb"           = 1
   }
 }
@@ -176,7 +195,7 @@ resource "helm_release" "aws_load_balancer_controller" {
 
   set {
     name  = "clusterName"
-    value = var.cluster_name
+    value = local.cluster_name_full
   }
 
   set {
