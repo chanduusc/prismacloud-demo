@@ -1,8 +1,12 @@
 on:
   push:
     branches: [ main ]
+    paths:
+    - 'gcp-cloudrun/**'
   pull_request:
     branches: [ main ]
+    paths:
+    - 'gcp-cloudrun/**'
 name: GCP Cloudrun - Build, Scan and Deploy
 jobs:
   deploy:

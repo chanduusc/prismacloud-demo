@@ -6,7 +6,6 @@
         "runtime": "python3.9",
 	      "aws_region": "us-west-2",
 	      "slim_handler": true,
-          "keep_warm": false,
-          "layers": ["arn:aws:lambda:us-west-2:119186721115:layer:pc:1"]
+          "keep_warm": false
     }
 }
