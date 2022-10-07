@@ -1,1 +1,10 @@
-Use the below link : https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html
+# AWS Infrastructure for Prisma Cloud Demo
+Required Terraform variables:
+| Variable | Description | Example |
+| --- | --- | ---|
+| `trusted_networks` | List of strings containing trusted CIDRs | `["198.51.100.1/32", "198.51.100.2/32"]` |
+| `demo_user_username` | Username for your IAM demo-user | `demo-user`
+After bringing up the cluster run the following to configure kubectl:
+```bash
+aws eks update-kubeconfig --name pc-demo-eks
+```
