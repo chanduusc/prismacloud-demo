@@ -8,7 +8,7 @@ AWS lambda is a serverless platform for deploying your applications.It makes use
 AWS lambda works by unzipping your code to a s3 bucket, launches a container in the cluster to represent the function you wrote and the event will be passed on to the function, to take care of the http request and response it makes use of the AWS API gateway.
 
 
-### Security 
+### Security
 
 AWS lambda security issues arise due to improperly configured applications or vulnerable applications being run.It is an interesting space to look around.You could escalate from the function code to the inner aws architecture which might be being used.
 
