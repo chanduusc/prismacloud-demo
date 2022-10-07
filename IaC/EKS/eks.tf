@@ -150,6 +150,7 @@ resource "kubernetes_service_account" "aws_lb_sa" {
 }
 
 resource "kubernetes_role_binding" "edit_default_namespace_role_mapping" {
+  # checkov:skip=CKV_K8S_21: Default namespace used by deployments
   metadata {
     name      = "edit-default-namespace-role-mapping"
     namespace = "default"
