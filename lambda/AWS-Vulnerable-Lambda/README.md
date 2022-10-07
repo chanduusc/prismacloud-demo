@@ -1,7 +1,7 @@
 # AWS-Vulnerable-Lambda
 An AWS Lambda vulnerable application written in flask.
 
-### Context 
+### Context
 
 AWS lambda is a serverless platform for deploying your applications.It makes use of the use and throw functionality, where it creates a sandbox and then destroys it once it is done.
 
