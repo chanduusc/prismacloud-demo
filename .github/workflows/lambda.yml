@@ -1,8 +1,12 @@
 on:
   push:
     branches: [ main ]
+    paths:
+    - 'lambda/AWS-Vulnerable-Lambda/**'
   pull_request:
     branches: [ main ]
+    paths:
+    - 'lambda/AWS-Vulnerable-Lambda/**'
 name: AWS Lambda - Build, Scan and Deploy
 
 jobs:
@@ -62,4 +66,5 @@ jobs:
       run: |
         set -x
         . env/bin/activate
-        zappa update dev
+        zappa undeploy dev -y
+        zappa deploy dev
