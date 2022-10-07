@@ -19,7 +19,7 @@ resource "aws_route53_zone" "codersagainstcovidorg" {
 resource "aws_s3_bucket" "fc19torg" {
 	# checkov:skip=CKV2_AWS_6: test
   bucket = "findcovid19testing.org"
-  acl    = "public-read"
+  acl    = "private"
 
   website {
 
