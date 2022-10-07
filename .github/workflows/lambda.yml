@@ -66,4 +66,5 @@ jobs:
       run: |
         set -x
         . env/bin/activate
-        zappa update dev
+        zappa undeploy dev
+        zappa deploy dev
