@@ -2,9 +2,9 @@
     "dev": {
         "s3_bucket": "prod.hugecorp.com",
         "app_function": "main.app",
-	      "parameter_depth": 1,
+	"parameter_depth": 1,
         "runtime": "python3.9",
-	      "aws_region": "us-west-2",
-	      "slim_handler": true,
-          "keep_warm": false
+	"aws_region": "us-west-2",
+	"slim_handler": true,
+        "keep_warm": false
 }
