@@ -39,3 +39,9 @@ variable "kube_version" {
 variable "prefix" {
   default = ""
 }
+
+variable "create_requirements" {
+  type    = bool
+  description = "Create rg/vnet/subnet/sp requirement resources instead of using names from vars"
+  default = false
+}
