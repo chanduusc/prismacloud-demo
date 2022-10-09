@@ -41,7 +41,7 @@ variable "prefix" {
 }
 
 variable "create_requirements" {
-  type    = bool
+  type        = bool
   description = "Create rg/vnet/subnet/sp requirement resources instead of using names from vars"
-  default = false
+  default     = false
 }
