@@ -42,12 +42,20 @@ jobs:
             password: ${{ secrets.REGISTRY_PASSWORD }}
         - run: |
             docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/pythonserver:${{ github.sha }}
+        - name: Set up kubelogin for non-interactive login
+          run: |
+            curl -LO https://github.com/Azure/kubelogin/releases/download/v0.0.20/kubelogin-linux-amd64.zip
+            sudo unzip -j kubelogin-linux-amd64.zip -d /usr/local/bin
+            rm -f kubelogin-linux-amd64.zip
+            kubelogin --version
         - name: Set AKS context
           id: set-context
           uses: azure/aks-set-context@v3
           with:
             resource-group: '${{ secrets.resource_group }}' 
             cluster-name: '${{ secrets.cluster_name }}'
+            admin: 'false'
+            use-kubelogin: 'true'
         - name: Setup kubectl
           id: install-kubectl
           uses: azure/setup-kubectl@v3
