@@ -59,6 +59,9 @@ jobs:
         - name: Setup kubectl
           id: install-kubectl
           uses: azure/setup-kubectl@v3
+        - name: Update Registry URL
+          run: |
+            sed -i.bak 's/pcgithub.azurecr.io/${{ secrets.REGISTRY_LOGIN_SERVER }}/' aks-deployment.yml
         - name: Deploy to AKS
           id: deploy-aks
           uses: Azure/k8s-deploy@v4
