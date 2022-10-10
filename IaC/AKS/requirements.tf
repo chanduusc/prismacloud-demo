@@ -35,10 +35,10 @@ resource "azuread_service_principal_password" "sp_pwd" {
   service_principal_id = azuread_service_principal.sp[count.index].object_id
 }
 
-resource "azurerm_role_assignment" "sp_role" {
+resource "azurerm_role_assignment" "sp_aks_role" {
   count                = var.create_requirements ? 1 : 0
-  scope                = azurerm_resource_group.rg[count.index].id
-  role_definition_name = "Reader"
+  scope                = azurerm_kubernetes_cluster.aks_cluster.id
+  role_definition_name = "Azure Kubernetes Service Cluster User Role"
   principal_id         = azuread_service_principal.sp[count.index].id
 }
 
