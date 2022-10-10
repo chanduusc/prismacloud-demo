@@ -70,4 +70,4 @@ jobs:
             manifests: |
               aks-deployment.yml
             images: '${{ secrets.REGISTRY_LOGIN_SERVER }}/pythonserver:${{ github.sha }}'
-            
+            annotate-namespace: 'false'
