@@ -19,8 +19,8 @@ data "azurerm_kubernetes_cluster" "aks" {
 }
 
 resource "azurerm_role_assignment" "aks_acr_role" {
-  count                            = var.create_acr ? 1 : 0
-  scope                            = azurerm_container_registry.acr[count.index].id
-  role_definition_name             = "acrpull"
-  principal_id                     = data.azurerm_kubernetes_cluster.aks.kubelet_identity[0].object_id
+  count                = var.create_acr ? 1 : 0
+  scope                = azurerm_container_registry.acr[count.index].id
+  role_definition_name = "acrpull"
+  principal_id         = data.azurerm_kubernetes_cluster.aks.kubelet_identity[0].object_id
 }

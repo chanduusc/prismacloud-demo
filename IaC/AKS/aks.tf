@@ -11,17 +11,6 @@ provider "azurerm" {
   features {}
 }
 
-provider "kubernetes" {
-  host                   = azurerm_kubernetes_cluster.aks_cluster.kube_config[0].host
-  cluster_ca_certificate = base64decode(azurerm_kubernetes_cluster.aks_cluster.kube_config[0].cluster_ca_certificate)
-
-  exec {
-    api_version = "client.authentication.k8s.io/v1beta1"
-    command     = "kubelogin"
-    args        = ["get-token", "-l", "azurecli", "--server-id", "6dae42f8-4368-4678-94ff-3960e28e3630"]
-  }
-}
-
 data "azurerm_subscription" "configured" {
   subscription_id = var.subscription_id
 }
@@ -49,11 +38,6 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
 
   kubernetes_version = var.kube_version
 
-  /*   service_principal {
-    client_id     = var.create_requirements ? azuread_application.app[0].application_id : var.client_id
-    client_secret = var.create_requirements ? azuread_service_principal_password.sp_pwd[0].value : var.client_secret
-  } */
-
   identity {
     type = "SystemAssigned"
   }
@@ -72,34 +56,26 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
   azure_policy_enabled              = true
 
   azure_active_directory_role_based_access_control {
-    managed                = true
-    admin_group_object_ids = ["ac3afdc3-9968-4300-b8de-82a1b6defba7"]
-    tenant_id              = data.azurerm_subscription.configured.tenant_id
-    # azure_rbac_enabled = true
+    managed            = true
+    tenant_id          = data.azurerm_subscription.configured.tenant_id
+    azure_rbac_enabled = true
   }
 }
 
-# Cannot be used until https://github.com/microsoftgraph/msgraph-metadata/issues/92 is fixed
-# resource "azuread_group" "aks_admin_ad_group" {
-#   display_name     = "${prefix}-aks-admin"
-#   members = [data.azuread_client_config.current.object_id]
-#   security_enabled = true
-# }
+resource "azurerm_role_assignment" "admin_aks_rbac" {
+  role_definition_name = "Azure Kubernetes Service RBAC Cluster Admin"
+  principal_id         = data.azuread_client_config.current.object_id
+  scope                = azurerm_kubernetes_cluster.aks_cluster.id
+}
 
-resource "kubernetes_role_binding" "edit_default_namespace_role_mapping" {
-  # checkov:skip=CKV_K8S_21: Default namespace used by deployments
-  metadata {
-    name      = "edit-default-namespace-role-mapping"
-    namespace = "default"
-  }
-  role_ref {
-    api_group = "rbac.authorization.k8s.io"
-    kind      = "ClusterRole"
-    name      = "edit"
-  }
-  subject {
-    kind      = "User"
-    name      = var.create_requirements ? azuread_service_principal.sp[0].id : var.client_id
-    api_group = "rbac.authorization.k8s.io"
-  }
+resource "azurerm_role_assignment" "sp_aks_role" {
+  role_definition_name = "Azure Kubernetes Service Cluster User Role"
+  principal_id         = var.create_requirements ? azuread_service_principal.sp[0].id : var.client_id
+  scope                = azurerm_kubernetes_cluster.aks_cluster.id
+}
+
+resource "azurerm_role_assignment" "sp_aks_rbac" {
+  role_definition_name = "Azure Kubernetes Service RBAC Writer"
+  principal_id         = var.create_requirements ? azuread_service_principal.sp[0].id : var.client_id
+  scope                = "${azurerm_kubernetes_cluster.aks_cluster.id}/namespaces/default"
 }
