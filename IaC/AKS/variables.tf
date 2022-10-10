@@ -45,3 +45,9 @@ variable "create_requirements" {
   description = "Create rg/vnet/subnet/sp requirement resources instead of using names from vars"
   default     = false
 }
+
+variable "create_acr" {
+  type        = bool
+  description = "Create ACR. If this is set to true, create_requirements must also be true"
+  default     = false
+}
