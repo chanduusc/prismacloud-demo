@@ -5,7 +5,7 @@ variable "project" {}
 variable "ssh-keys" {}
 variable "service_account_email" {}
 variable "service_account_scopes" {
-default = ["https://www.googleapis.com/auth/cloud-platform"]
+  default = ["https://www.googleapis.com/auth/cloud-platform"]
 }
 
 
