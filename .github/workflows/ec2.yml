@@ -35,5 +35,5 @@ jobs:
             --application-name VulnApp \
             --deployment-group-name VulnApp \
             --deployment-config-name CodeDeployDefault.OneAtATime \
-            --github-location repository=${{ github.repository }},commitId=${{ github.sha }}
+            --github-location repository=${{ github.repository }},commitId=${{ github.sha }} \
             --ignore-application-stop-failures
