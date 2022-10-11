@@ -35,7 +35,5 @@ variable "master_ipv4_cidr_block" {}
 
 
 variable "corp_public_ip" {}
-variable "prefix" {
-  default = "schandu"
-}
+variable "prefix" {}
 variable "kube_version" {}
