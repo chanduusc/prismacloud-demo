@@ -34,3 +34,13 @@ resource "azuread_service_principal_password" "sp_pwd" {
   count                = var.create_requirements ? 1 : 0
   service_principal_id = azuread_service_principal.sp[count.index].object_id
 }
+
+output "sp_secrets" {
+  value = {
+    clientId       = var.create_requirements ? azuread_service_principal.sp[0].application_id : null
+    clientSecret   = var.create_requirements ? azuread_service_principal_password.sp_pwd[0].value : null
+    subscriptionId = var.subscription_id
+    tenantId       = var.create_requirements ? azuread_service_principal.sp[0].application_tenant_id : null
+  }
+  sensitive = true
+}
