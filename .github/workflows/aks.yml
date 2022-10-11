@@ -18,13 +18,14 @@ jobs:
           with:
             creds: ${{ secrets.AZURE_CREDENTIALS }}
         
-        - name: 'Build image'
+        - name: 'Log in Docker'
           uses: azure/docker-login@v1
           with:
             login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
             username: ${{ secrets.REGISTRY_USERNAME }}
             password: ${{ secrets.REGISTRY_PASSWORD }}
-        - run: |
+        - name: 'Build Image'
+          run: |
             docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/pythonserver:${{ github.sha }}
         - name: Prisma Cloud image scan
           id: scan
@@ -35,22 +36,28 @@ jobs:
             pcc_pass: ${{ secrets.PCC_PASS }}
             image_name: ${{ secrets.REGISTRY_LOGIN_SERVER }}/pythonserver:${{ github.sha }}
         - name: 'Push image'
-          uses: azure/docker-login@v1
-          with:
-            login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
-            username: ${{ secrets.REGISTRY_USERNAME }}
-            password: ${{ secrets.REGISTRY_PASSWORD }}
-        - run: |
+          run: |
             docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/pythonserver:${{ github.sha }}
+        - name: Set up kubelogin for non-interactive login
+          run: |
+            curl -LO https://github.com/Azure/kubelogin/releases/download/v0.0.20/kubelogin-linux-amd64.zip
+            sudo unzip -j kubelogin-linux-amd64.zip -d /usr/local/bin
+            rm -f kubelogin-linux-amd64.zip
+            kubelogin --version
         - name: Set AKS context
           id: set-context
           uses: azure/aks-set-context@v3
           with:
             resource-group: '${{ secrets.resource_group }}' 
             cluster-name: '${{ secrets.cluster_name }}'
+            admin: 'false'
+            use-kubelogin: 'true'
         - name: Setup kubectl
           id: install-kubectl
           uses: azure/setup-kubectl@v3
+        - name: Update Registry URL
+          run: |
+            sed -i.bak 's/pcgithub.azurecr.io/${{ secrets.REGISTRY_LOGIN_SERVER }}/' aks-deployment.yml
         - name: Deploy to AKS
           id: deploy-aks
           uses: Azure/k8s-deploy@v4
@@ -59,4 +66,4 @@ jobs:
             manifests: |
               aks-deployment.yml
             images: '${{ secrets.REGISTRY_LOGIN_SERVER }}/pythonserver:${{ github.sha }}'
-            
+            annotate-namespace: 'false'
