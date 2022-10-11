@@ -3,7 +3,6 @@ resource "random_string" "password" {
   upper   = false
   special = false
 }
-provider "random" {}
 
 provider "azurerm" {
   #version = "=1.38.0"
@@ -12,8 +11,15 @@ provider "azurerm" {
   features {}
 }
 
+data "azurerm_subscription" "configured" {
+  subscription_id = var.subscription_id
+}
 
 resource "azurerm_kubernetes_cluster" "aks_cluster" {
+  # checkov:skip=CKV_AZURE_115: Private Cluster would not work with GH actions
+  # checkov:skip=CKV_AZURE_117: Disks are already encrypted at rest with Azure manged keys, which is sufficient for a demo cluster
+  # checkov:skip=CKV_AZURE_4: No need for cluster telemetry (performance/availability) for a demo cluster
+  # checkov:skip=CKV_AZURE_6: Cannot use trusted networks because of 200 IP limit with GH actions
   name                = "${var.prefix}-${random_string.password.result}"
   location            = var.region
   resource_group_name = var.create_requirements ? azurerm_resource_group.rg[0].name : var.resource_group_name
@@ -32,12 +38,9 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
 
   kubernetes_version = var.kube_version
 
-  service_principal {
-    client_id     = var.create_requirements ? azuread_application.app[0].application_id : var.client_id
-    client_secret = var.create_requirements ? azuread_service_principal_password.sp_pwd[0].value : var.client_secret
+  identity {
+    type = "SystemAssigned"
   }
-
-
 
   network_profile {
     network_plugin     = var.network_plugin
@@ -47,6 +50,32 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
     service_cidr       = "192.168.0.0/16"
 
   }
+
+  local_account_disabled            = true
+  role_based_access_control_enabled = true
+  azure_policy_enabled              = true
+
+  azure_active_directory_role_based_access_control {
+    managed            = true
+    tenant_id          = data.azurerm_subscription.configured.tenant_id
+    azure_rbac_enabled = true
+  }
 }
 
+resource "azurerm_role_assignment" "admin_aks_rbac" {
+  role_definition_name = "Azure Kubernetes Service RBAC Cluster Admin"
+  principal_id         = data.azuread_client_config.current.object_id
+  scope                = azurerm_kubernetes_cluster.aks_cluster.id
+}
 
+resource "azurerm_role_assignment" "sp_aks_role" {
+  role_definition_name = "Azure Kubernetes Service Cluster User Role"
+  principal_id         = var.create_requirements ? azuread_service_principal.sp[0].id : var.client_id
+  scope                = azurerm_kubernetes_cluster.aks_cluster.id
+}
+
+resource "azurerm_role_assignment" "sp_aks_rbac" {
+  role_definition_name = "Azure Kubernetes Service RBAC Writer"
+  principal_id         = var.create_requirements ? azuread_service_principal.sp[0].id : var.client_id
+  scope                = "${azurerm_kubernetes_cluster.aks_cluster.id}/namespaces/default"
+}
