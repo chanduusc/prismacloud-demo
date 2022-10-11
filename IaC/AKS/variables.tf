@@ -41,7 +41,18 @@ variable "prefix" {
 }
 
 variable "create_requirements" {
-  type    = bool
+  type        = bool
   description = "Create rg/vnet/subnet/sp requirement resources instead of using names from vars"
-  default = false
+  default     = false
+}
+
+variable "create_acr" {
+  type        = bool
+  description = "Create ACR. If this is set to true, create_requirements must also be true"
+  default     = false
+}
+
+variable "aks_admin_aad_group_id" {
+  type        = string
+  description = "ID of the AAD group that contains AKS admins. This group needs to be manually created"
 }
