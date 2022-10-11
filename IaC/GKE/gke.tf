@@ -224,7 +224,7 @@ output "cluster_version" {
 
 
 output "cluster_region" {
-  value = "${var.region}-a"
+  value = google_container_cluster.cluster.location
 }
 
 output "project" {
