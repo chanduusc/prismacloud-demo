@@ -15,4 +15,7 @@ def index():
 		output = subprocess.check_output(command, shell=True)
 	else:
 		output = "None"
+
+if __name__ == "__main__":
+    app.run(debug=True)
 	# return render_template("index.html",output=output)
