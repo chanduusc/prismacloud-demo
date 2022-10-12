@@ -67,7 +67,7 @@ jobs:
         chmod u+x ./kustomize
     - name: Update deploy image to GKE
       run: |-
-       ./kustomize edit set image "gcr.io/${{ secrets.GKE_PROJECT }}/${{ secrets.IMAGE }}:${{ github.sha }}"
+       ./kustomize edit set image "gcr.io/schandu/pythonserver=gcr.io/${{ secrets.GKE_PROJECT }}/${{ secrets.IMAGE }}:${{ github.sha }}"
         cat kustomization.yaml
         kustomize build . | kubectl apply -f -
         kubectl get pods -o wide
