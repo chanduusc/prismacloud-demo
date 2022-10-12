@@ -27,8 +27,8 @@ resource "google_service_account_key" "sa_key" {
 
 resource "google_project_iam_binding" "sa_role" {
   for_each = var.create_requirements ? toset([
-    "roles/container.clusterViewer",
-    "roles/storage.admin"
+    "roles/container.developer", # deploy to k8s
+    "roles/storage.admin" # push to gcr
   ]) : toset([])
   role    = each.key
   members = ["serviceAccount:${google_service_account.service_account[0].email}"]
