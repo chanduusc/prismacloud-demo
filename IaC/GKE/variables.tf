@@ -37,3 +37,8 @@ variable "master_ipv4_cidr_block" {}
 variable "corp_public_ip" {}
 variable "prefix" {}
 variable "kube_version" {}
+
+variable "create_requirements" {
+  type    = bool
+  default = false
+}
