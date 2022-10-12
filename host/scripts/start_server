@@ -2,5 +2,6 @@
 cd /home/ec2-user/app
 source environment/bin/activate
 sudo unlink /tmp/supervisor.sock
+sudo pkill supervisord
 supervisord -c supervisord.conf
 
