@@ -63,11 +63,15 @@ jobs:
         echo "Pushing image to ECR..."
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-    - name: Deploy to Kubernetes cluster                                                                            
-      uses: kodermax/kubectl-aws-eks@master                                                                         
-      env:   
-        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }} 
-        IMAGE_TAG: ${{ github.sha }}                                                                                                      
-        RELEASE_IMAGE: ${{ steps.login-ecr.outputs.registry }}/${{ secrets.REPO_NAME }}:$IMAGE_TAG
-      with:                                                                                                         
-        args: set image deployment/python-server-github python-server-app=${{ env.RELEASE_IMAGE }} --record -n default
+    - name: Set up kubeconfig
+      run: |-
+        mkdir ~/.kube
+        echo ${{ secrets.KUBE_CONFIG_DATA }} | base64 -d > ~/.kube/config
+    - name: Deploy to Kubernetes cluster
+      run: |-
+        rm kustomization.yaml
+        kustomize create --resources eks-deployment.yml
+        kustomize edit set image "119186721115.dkr.ecr.us-east-2.amazonaws.com/pythonscript=${{ steps.login-ecr.outputs.registry }}/${{ secrets.REPO_NAME }}:${{ github.sha }}"
+        cat kustomization.yaml
+        kustomize build . | kubectl apply -f -
+        kubectl get pods -o wide
