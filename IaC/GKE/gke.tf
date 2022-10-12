@@ -153,8 +153,8 @@ resource "google_container_cluster" "cluster" {
 
   }
 
-  network    = var.vpc_network_name
-  subnetwork = var.vpc_subnetwork_name
+  network    = var.create_requirements ? google_compute_network.vpc[0].name : var.vpc_network_name
+  subnetwork = var.create_requirements ? google_compute_subnetwork.subnet[0].name : var.vpc_subnetwork_name
 
   # add labels
 }
