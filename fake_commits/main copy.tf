@@ -28,6 +28,19 @@ resource "aws_s3_bucket" "fc19torg" {
 }
 
 
+resource "aws_s3_bucket" "fc19torg_log_bucket" {
+  bucket = "fc19torg-log-bucket"
+}
+
+resource "aws_s3_bucket_logging" "fc19torg" {
+  bucket = aws_s3_bucket.fc19torg.id
+
+  target_bucket = aws_s3_bucket.fc19torg_log_bucket.id
+  target_prefix = "log/"
+}
+
+
+
 #######################
 # Website stuff
 #######################
