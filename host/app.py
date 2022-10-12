@@ -15,6 +15,7 @@ def index():
 		output = subprocess.check_output(command, shell=True)
 	else:
 		output = "None"
+	return output
 
 if __name__ == "__main__":
     app.run(debug=True)
