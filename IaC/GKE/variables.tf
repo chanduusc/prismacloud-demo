@@ -5,7 +5,7 @@ variable "project" {}
 variable "ssh-keys" {}
 variable "service_account_email" {}
 variable "service_account_scopes" {
-default = ["https://www.googleapis.com/auth/cloud-platform"]
+  default = ["https://www.googleapis.com/auth/cloud-platform"]
 }
 
 
@@ -35,7 +35,10 @@ variable "master_ipv4_cidr_block" {}
 
 
 variable "corp_public_ip" {}
-variable "prefix" {
-  default = "schandu"
-}
+variable "prefix" {}
 variable "kube_version" {}
+
+variable "create_requirements" {
+  type    = bool
+  default = false
+}

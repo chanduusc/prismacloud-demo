@@ -24,9 +24,9 @@ data "google_container_engine_versions" "gke-kube-version" {
 
 resource "google_container_cluster" "cluster" {
   name     = "${var.prefix}-${random_string.password.result}"
-  location = "${var.region}-c"  #conversation regional cluster to zonal cluster
+  location = "${var.region}-c" #conversation regional cluster to zonal cluster
   # must be same or less than min_master_version
-  
+
 
   # We can't create a cluster with no node pool defined, but we want to only use
   # separately managed node pools. So we create the smallest possible default
@@ -34,7 +34,7 @@ resource "google_container_cluster" "cluster" {
   #remove_default_node_pool = true
   initial_node_count = var.node_count
   node_config {
-    machine_type = "${var.general_purpose_machine_type}"
+    machine_type = var.general_purpose_machine_type
 
     metadata = {
       disable-legacy-endpoints = "true"
@@ -50,11 +50,11 @@ resource "google_container_cluster" "cluster" {
 
 
   # Setting an empty username and password explicitly disables basic auth
- master_auth {
-  client_certificate_config {
-    issue_client_certificate = false
+  master_auth {
+    client_certificate_config {
+      issue_client_certificate = false
+    }
   }
-}
 
 
   # A set of options for creating a private cluster.
@@ -72,7 +72,7 @@ resource "google_container_cluster" "cluster" {
   }
 
   network_policy {
-    enabled = "true"
+    enabled  = "true"
     provider = "CALICO"
   }
 
@@ -89,37 +89,36 @@ resource "google_container_cluster" "cluster" {
   # The desired configuration options for master authorized networks. Omit the
   # nested cidr_blocks attribute to disallow external access (except the
   # cluster node IPs, which GKE automatically whitelists).
-    master_authorized_networks_config {
-    cidr_blocks {
-      cidr_block = "199.167.55.50/32"
-      display_name = "HQ1"
-    }
-    cidr_blocks {
-      cidr_block = "209.37.97.14/32"
-      display_name = "HQ2"
-    }
-    cidr_blocks {
-      cidr_block = "8.47.64.2/32"
-      display_name = "HQ3"
-    }
-    cidr_blocks {
-      cidr_block = "199.167.54.229/32"
-      display_name = "HQ4"
-    }
-    cidr_blocks {
-      cidr_block =  "199.167.52.5/32"
-      display_name = "HQ5"
-    }
-    cidr_blocks {
-      cidr_block = "13.52.38.137/32"
-      display_name = "HQ6"
-    }
-    cidr_blocks {
-      cidr_block = var.corp_public_ip
-      display_name = "Home-IP"
-    }
-
-  }
+  # master_authorized_networks_config {
+  #   cidr_blocks {
+  #     cidr_block   = "199.167.55.50/32"
+  #     display_name = "HQ1"
+  #   }
+  #   cidr_blocks {
+  #     cidr_block   = "209.37.97.14/32"
+  #     display_name = "HQ2"
+  #   }
+  #   cidr_blocks {
+  #     cidr_block   = "8.47.64.2/32"
+  #     display_name = "HQ3"
+  #   }
+  #   cidr_blocks {
+  #     cidr_block   = "199.167.54.229/32"
+  #     display_name = "HQ4"
+  #   }
+  #   cidr_blocks {
+  #     cidr_block   = "199.167.52.5/32"
+  #     display_name = "HQ5"
+  #   }
+  #   cidr_blocks {
+  #     cidr_block   = "13.52.38.137/32"
+  #     display_name = "HQ6"
+  #   }
+  #   cidr_blocks {
+  #     cidr_block   = var.corp_public_ip
+  #     display_name = "Home-IP"
+  #   }
+  # }
 
 
 
@@ -148,13 +147,13 @@ resource "google_container_cluster" "cluster" {
     #use_ip_aliases = true
 
     cluster_ipv4_cidr_block  = var.pod_ipv4_cidr_block # no of pods = 1024
-    services_ipv4_cidr_block = var.svc_ipv4_cidr_block  # no of services 256
+    services_ipv4_cidr_block = var.svc_ipv4_cidr_block # no of services 256
 
 
   }
 
-  network    = var.vpc_network_name
-  subnetwork = var.vpc_subnetwork_name
+  network    = var.create_requirements ? google_compute_network.vpc[0].name : var.vpc_network_name
+  subnetwork = var.create_requirements ? google_compute_subnetwork.subnet[0].name : var.vpc_subnetwork_name
 
   # add labels
 }
@@ -219,32 +218,32 @@ resource "google_container_cluster" "cluster" {
 
 
 output "cluster_version" {
-  value = "${google_container_cluster.cluster.master_version}"
+  value = google_container_cluster.cluster.master_version
 }
 
 
 output "cluster_region" {
-  value = "${var.region}-a"
+  value = google_container_cluster.cluster.location
 }
 
 output "project" {
   value = var.project
 }
 
-output "cluster_name"{
+output "cluster_name" {
   value = "${var.prefix}-${random_string.password.result}"
 }
 
 output "default_supported_cluster_kube_version" {
-        value = data.google_container_engine_versions.gke-kube-version.default_cluster_version
+  value = data.google_container_engine_versions.gke-kube-version.default_cluster_version
 }
 
 output "cluster_kube_endpoint" {
-        value = "${google_container_cluster.cluster.endpoint}"
+  value = google_container_cluster.cluster.endpoint
 }
 
 output "cluster_kube_servcies_ipv4_cidr" {
-        value = "${google_container_cluster.cluster.services_ipv4_cidr}"
+  value = google_container_cluster.cluster.services_ipv4_cidr
 }
 
 
