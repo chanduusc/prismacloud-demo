@@ -89,37 +89,36 @@ resource "google_container_cluster" "cluster" {
   # The desired configuration options for master authorized networks. Omit the
   # nested cidr_blocks attribute to disallow external access (except the
   # cluster node IPs, which GKE automatically whitelists).
-  master_authorized_networks_config {
-    cidr_blocks {
-      cidr_block   = "199.167.55.50/32"
-      display_name = "HQ1"
-    }
-    cidr_blocks {
-      cidr_block   = "209.37.97.14/32"
-      display_name = "HQ2"
-    }
-    cidr_blocks {
-      cidr_block   = "8.47.64.2/32"
-      display_name = "HQ3"
-    }
-    cidr_blocks {
-      cidr_block   = "199.167.54.229/32"
-      display_name = "HQ4"
-    }
-    cidr_blocks {
-      cidr_block   = "199.167.52.5/32"
-      display_name = "HQ5"
-    }
-    cidr_blocks {
-      cidr_block   = "13.52.38.137/32"
-      display_name = "HQ6"
-    }
-    cidr_blocks {
-      cidr_block   = var.corp_public_ip
-      display_name = "Home-IP"
-    }
-
-  }
+  # master_authorized_networks_config {
+  #   cidr_blocks {
+  #     cidr_block   = "199.167.55.50/32"
+  #     display_name = "HQ1"
+  #   }
+  #   cidr_blocks {
+  #     cidr_block   = "209.37.97.14/32"
+  #     display_name = "HQ2"
+  #   }
+  #   cidr_blocks {
+  #     cidr_block   = "8.47.64.2/32"
+  #     display_name = "HQ3"
+  #   }
+  #   cidr_blocks {
+  #     cidr_block   = "199.167.54.229/32"
+  #     display_name = "HQ4"
+  #   }
+  #   cidr_blocks {
+  #     cidr_block   = "199.167.52.5/32"
+  #     display_name = "HQ5"
+  #   }
+  #   cidr_blocks {
+  #     cidr_block   = "13.52.38.137/32"
+  #     display_name = "HQ6"
+  #   }
+  #   cidr_blocks {
+  #     cidr_block   = var.corp_public_ip
+  #     display_name = "Home-IP"
+  #   }
+  # }
 
 
 
