@@ -13,4 +13,4 @@
 `AWS_SECRET_ACCESS_KEY` |AWS_SECRET_ACCESS_KEY for your IAM demo-user | `wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY` |
 | `AWS_REGION` | The AWS region where ECR is located in | `eu-central-1` |
 `KUBE_CONFIG_DATA` | `cat $HOME/.kube/config \| base64` | `YmFzZTY0IG...V4YW1wbGU=` |
-`REPO_NAME` | The name of the ECR repository | `pythonscript`
+`REPO_NAME` | The name of the ECR repository | `pythonscript
