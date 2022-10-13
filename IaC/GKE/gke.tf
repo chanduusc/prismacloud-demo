@@ -1,4 +1,3 @@
-
 resource "random_string" "password" {
   length  = 4
   upper   = false
@@ -15,18 +14,20 @@ provider "google" {
   zone        = "${var.region}-c"
 }
 
-
 data "google_container_engine_versions" "gke-kube-version" {
   location       = "${var.region}-c" #conversation regional cluster to zonal cluster
   version_prefix = "${var.kube_version}."
 }
 
-
 resource "google_container_cluster" "cluster" {
+  # checkov:skip=CKV_GCP_69: Fix is applied below, seems that syntax has changed
+  # checkov:skip=CKV_GCP_24: Requires google-beta provider
+  # checkov:skip=CKV_GCP_66: Demo images will not be cryptographically signed
+  # checkov:skip=CKV_GCP_65: No need for Groups at demo scale
+  # checkov:skip=CKV_GCP_20: Cluster needs to be reachable from the internet for GH actions
   name     = "${var.prefix}-${random_string.password.result}"
   location = "${var.region}-c" #conversation regional cluster to zonal cluster
   # must be same or less than min_master_version
-
 
   # We can't create a cluster with no node pool defined, but we want to only use
   # separately managed node pools. So we create the smallest possible default
@@ -34,6 +35,12 @@ resource "google_container_cluster" "cluster" {
   #remove_default_node_pool = true
   initial_node_count = var.node_count
   node_config {
+    shielded_instance_config {
+      # CKV_GCP_68
+      enable_secure_boot = true
+      # CKV_GCP_72
+      enable_integrity_monitoring = true
+    }
     machine_type = var.general_purpose_machine_type
 
     metadata = {
@@ -46,8 +53,12 @@ resource "google_container_cluster" "cluster" {
       "https://www.googleapis.com/auth/monitoring",
       "https://www.googleapis.com/auth/devstorage.read_only"
     ]
-  }
 
+    # CKV_GCP_69
+    workload_metadata_config {
+      mode = "GKE_METADATA"
+    }
+  }
 
   # Setting an empty username and password explicitly disables basic auth
   master_auth {
@@ -55,7 +66,6 @@ resource "google_container_cluster" "cluster" {
       issue_client_certificate = false
     }
   }
-
 
   # A set of options for creating a private cluster.
   private_cluster_config {
@@ -120,9 +130,6 @@ resource "google_container_cluster" "cluster" {
   #   }
   # }
 
-
-
-
   #master_authorized_networks_config {
   #  dynamic "cidr_blocks" {
   #    for_each = var.master_authorized_networks_cidr_blocks
@@ -132,9 +139,6 @@ resource "google_container_cluster" "cluster" {
   #    }
   #  }
   #}
-
-
-
 
   # Configuration for cluster IP allocation. As of now, only pre-allocated
   # subnetworks (custom type with secondary ranges) are supported. This will
@@ -148,16 +152,36 @@ resource "google_container_cluster" "cluster" {
 
     cluster_ipv4_cidr_block  = var.pod_ipv4_cidr_block # no of pods = 1024
     services_ipv4_cidr_block = var.svc_ipv4_cidr_block # no of services 256
-
-
   }
 
   network    = var.create_requirements ? google_compute_network.vpc[0].name : var.vpc_network_name
   subnetwork = var.create_requirements ? google_compute_subnetwork.subnet[0].name : var.vpc_subnetwork_name
 
-  # add labels
-}
+  # CKV_GCP_67
+  min_master_version = "1.22"
+  # CKV_GCP_61
+  enable_intranode_visibility = true
 
+  # CKV_GCP_24 requires google-beta TF provider
+  # pod_security_policy_config {
+  #   enabled = true
+  # }
+
+  # CKV_GCP_70
+  release_channel {
+    channel = "STABLE"
+  }
+
+  # CKV_GCP_21
+  resource_labels = {
+    csp = "gcs"
+  }
+
+  # required by `mode = "GKE_METADATA"` (CKV_GCP_69)
+  workload_identity_config {
+    workload_pool = "${var.project}.svc.id.goog"
+  }
+}
 
 #resource "google_container_node_pool" "general_purpose" {
 #  name       = "demo-pc-github-nodepool-${random_string.password.result}"
@@ -187,8 +211,6 @@ resource "google_container_cluster" "cluster" {
 #  }
 #}
 
-
-
 # The following outputs allow authentication and connectivity to the GKE Cluster
 # by using certificate-based authentication.
 
@@ -216,11 +238,9 @@ resource "google_container_cluster" "cluster" {
 #        value = "${google_container_cluster.cluster.node_pool}"
 #}
 
-
 output "cluster_version" {
   value = google_container_cluster.cluster.master_version
 }
-
 
 output "cluster_region" {
   value = google_container_cluster.cluster.location
@@ -245,5 +265,3 @@ output "cluster_kube_endpoint" {
 output "cluster_kube_servcies_ipv4_cidr" {
   value = google_container_cluster.cluster.services_ipv4_cidr
 }
-
-
