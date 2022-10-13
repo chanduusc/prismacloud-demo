@@ -62,7 +62,8 @@ jobs:
         docker push "gcr.io/${{ secrets.GKE_PROJECT }}/${{ secrets.IMAGE }}:${{ github.sha }}" 
     - name: Update deploy image to GKE
       run: |-
-        kustomize edit set image "gcr.io/schandu/pythonserver=gcr.io/${{ secrets.GKE_PROJECT }}/${{ secrets.IMAGE }}:${{ github.sha }}"
+        kustomize create --resources gke-deployment.yml
+        kustomize edit set image "demo-image-name=gcr.io/${{ secrets.GKE_PROJECT }}/${{ secrets.IMAGE }}:${{ github.sha }}"
         cat kustomization.yaml
         kustomize build . | kubectl apply -f -
         kubectl get pods -o wide

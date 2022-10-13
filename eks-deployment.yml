@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: python-server-app
-          image: 119186721115.dkr.ecr.us-east-2.amazonaws.com/pythonscript:latest
+          image: demo-image-name
           ports:
             - containerPort: 8080
               protocol: TCP
