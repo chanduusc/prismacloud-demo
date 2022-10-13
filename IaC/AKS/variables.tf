@@ -36,9 +36,7 @@ variable "kube_version" {
   default = "1.15.10"
 }
 
-variable "prefix" {
-  default = ""
-}
+variable "prefix" {}
 
 variable "create_requirements" {
   type        = bool
