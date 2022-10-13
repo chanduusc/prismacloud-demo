@@ -2,6 +2,12 @@ name: EC2 deployment
 on:
   push:
     branches: [ main ]
+    paths:
+    - 'host/**'
+  pull_request:
+    branches: [ main ]
+    paths:
+    - 'host/**'
 
 jobs:
   continuous-integration:
