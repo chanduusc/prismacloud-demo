@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: python-server-app
-          image: gcr.io/schandu/pythonserver@sha256:0f177d35ab3ec3c9a3bdc5d33c7cbf9ee1d180af9ab44fd1285d77c41f6b0391
+          image: demo-image-name
           ports:
             - containerPort: 8080
               protocol: TCP
