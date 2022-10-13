@@ -13,24 +13,20 @@ jobs:
       id-token: 'write'
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
-
+      uses: actions/checkout@v3
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ secrets.AWS_REGION }}
-    - name: Checkout repo
-      uses: actions/checkout@v2
-        
-    - name: Expose report
-      uses: actions/upload-artifact@v2
-      with:
-        name: SARIF results
-        path: results.sarif
+    # - name: Expose report
+    #   uses: actions/upload-artifact@v2
+    #   with:
+    #     name: SARIF results
+    #     path: results.sarif
     - name: Login to Amazon ECR
-      id: login-ecr 
+      id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
     - name: Build the image 
       id: build-image
@@ -62,12 +58,15 @@ jobs:
       run: |
         echo "Pushing image to ECR..."
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-    - name: Deploy to Kubernetes cluster                                                                            
-      uses: kodermax/kubectl-aws-eks@master                                                                         
-      env:   
-        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }} 
-        IMAGE_TAG: ${{ github.sha }}                                                                                                      
-        RELEASE_IMAGE: ${{ steps.login-ecr.outputs.registry }}/${{ secrets.REPO_NAME }}:$IMAGE_TAG
-      with:                                                                                                         
-        args: set image deployment/python-server-github python-server-app=${{ env.RELEASE_IMAGE }} --record -n default
+    - name: Set up kubeconfig
+      run: |-
+        mkdir ~/.kube
+        echo ${{ secrets.KUBE_CONFIG_DATA }} | base64 -d > ~/.kube/config
+    - name: Deploy to Kubernetes cluster
+      run: |-
+        rm kustomization.yaml
+        kustomize create --resources eks-deployment.yml
+        kustomize edit set image "119186721115.dkr.ecr.us-east-2.amazonaws.com/pythonscript=${{ steps.login-ecr.outputs.registry }}/${{ secrets.REPO_NAME }}:${{ github.sha }}"
+        cat kustomization.yaml
+        kustomize build . | kubectl apply -f -
+        kubectl get pods -o wide
