@@ -62,6 +62,11 @@ jobs:
       run: |-
         mkdir ~/.kube
         echo ${{ secrets.KUBE_CONFIG_DATA }} | base64 -d > ~/.kube/config
+    - name: Set up aws-iam-authenticator
+      run: |-
+        curl -Lo aws-iam-authenticator https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/v0.5.9/aws-iam-authenticator_0.5.9_linux_amd64
+        chmod +x ./aws-iam-authenticator
+        mv aws-iam-authenticator /usr/local/bin
     - name: Deploy to Kubernetes cluster
       run: |-
         rm kustomization.yaml
