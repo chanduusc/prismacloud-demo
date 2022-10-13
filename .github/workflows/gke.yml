@@ -13,22 +13,24 @@ jobs:
       id-token: 'write'
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
+    - name: Google authentication
+      uses: 'google-github-actions/auth@v0'
+      with:
+        credentials_json: ${{ secrets.GKE_SA_KEY }}
     - name: 'Set up Google Cloud SDK'
       uses: 'google-github-actions/setup-gcloud@v0'
       with:
-        service_account_key: ${{ secrets.GKE_SA_KEY }}
         project_id: ${{ secrets.GKE_PROJECT }} 
-    - run: |-
-        gcloud --quiet auth configure-docker
+    - name: Get docker GCR credentials
+      run: |-
+        gcloud --quiet auth configure-docker gcr.io
       # Get the GKE credentials so we can deploy to the cluster
-    - uses: google-github-actions/get-gke-credentials@v0
+    - name : Get GKE credentials 
+      uses: google-github-actions/get-gke-credentials@v0
       with:
         cluster_name: ${{ secrets.GKE_CLUSTER }}
         location: ${{ secrets.GKE_ZONE }}
-        credentials: ${{ secrets.GKE_SA_KEY }}
-    - name: Checkout repo
-      uses: actions/checkout@v2
     # - name: Run Bridgecrew 
     #   id: Bridgecrew
     #   uses: bridgecrewio/bridgecrew-action@master 
@@ -57,17 +59,10 @@ jobs:
   # Push the Docker image to Google Container Registry
     - name: Publish
       run: |-
-        docker push "gcr.io/${{ secrets.GKE_PROJECT }}/${{ secrets.IMAGE }}:${{ github.sha }}"
-    - name: Set up GKE credentials
-      run: |-
-        gcloud container clusters get-credentials ${{ secrets.GKE_CLUSTER }} --zone ${{ secrets.GKE_ZONE }} 
-    - name: Set up Kustomize
-      run: |-
-        curl -sfLo kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
-        chmod u+x ./kustomize
+        docker push "gcr.io/${{ secrets.GKE_PROJECT }}/${{ secrets.IMAGE }}:${{ github.sha }}" 
     - name: Update deploy image to GKE
       run: |-
-       ./kustomize edit set image "gcr.io/schandu/pythonserver=gcr.io/${{ secrets.GKE_PROJECT }}/${{ secrets.IMAGE }}:${{ github.sha }}"
+        kustomize edit set image "gcr.io/schandu/pythonserver=gcr.io/${{ secrets.GKE_PROJECT }}/${{ secrets.IMAGE }}:${{ github.sha }}"
         cat kustomization.yaml
         kustomize build . | kubectl apply -f -
         kubectl get pods -o wide
