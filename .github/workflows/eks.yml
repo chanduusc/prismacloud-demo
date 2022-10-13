@@ -13,24 +13,20 @@ jobs:
       id-token: 'write'
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
-
+      uses: actions/checkout@v3
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ secrets.AWS_REGION }}
-    - name: Checkout repo
-      uses: actions/checkout@v2
-        
-    - name: Expose report
-      uses: actions/upload-artifact@v2
-      with:
-        name: SARIF results
-        path: results.sarif
+    # - name: Expose report
+    #   uses: actions/upload-artifact@v2
+    #   with:
+    #     name: SARIF results
+    #     path: results.sarif
     - name: Login to Amazon ECR
-      id: login-ecr 
+      id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
     - name: Build the image 
       id: build-image
@@ -62,7 +58,6 @@ jobs:
       run: |
         echo "Pushing image to ECR..."
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
     - name: Set up kubeconfig
       run: |-
         mkdir ~/.kube
