@@ -68,6 +68,8 @@ module "eks" {
       groups   = [local.k8s_demo_user_group_name]
     }
   ]
+
+  cluster_tags = var.eks_tags
 }
 
 resource "null_resource" "eks_kubecfg" {
@@ -98,12 +100,12 @@ module "vpc" {
 
   public_subnet_tags = {
     "kubernetes.io/cluster/${local.cluster_name_full}" = "shared"
-    "kubernetes.io/role/elb"                    = 1
+    "kubernetes.io/role/elb"                           = 1
   }
 
   private_subnet_tags = {
     "kubernetes.io/cluster/${local.cluster_name_full}" = "shared"
-    "kubernetes.io/role/internal-elb"           = 1
+    "kubernetes.io/role/internal-elb"                  = 1
   }
 }
 
