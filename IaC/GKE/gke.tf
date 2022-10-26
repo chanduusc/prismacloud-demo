@@ -181,6 +181,11 @@ resource "google_container_cluster" "cluster" {
   workload_identity_config {
     workload_pool = "${var.project}.svc.id.goog"
   }
+
+  database_encryption {
+    state    = "ENCRYPTED"
+    key_name = var.create_requirements ? google_kms_crypto_key_iam_member.gke_key_iam[0].crypto_key_id : data.google_kms_crypto_key.gke_key.id
+  }
 }
 
 #resource "google_container_node_pool" "general_purpose" {
