@@ -20,7 +20,6 @@ data "google_container_engine_versions" "gke-kube-version" {
 }
 
 resource "google_container_cluster" "cluster" {
-  # checkov:skip=CKV_GCP_69: Fix is applied below, seems that syntax has changed
   # checkov:skip=CKV_GCP_24: Requires google-beta provider
   # checkov:skip=CKV_GCP_66: Demo images will not be cryptographically signed
   # checkov:skip=CKV_GCP_65: No need for Groups at demo scale
