@@ -42,3 +42,11 @@ variable "create_requirements" {
   type    = bool
   default = false
 }
+
+variable "crypto_keyring_name" {
+  type = string
+}
+
+variable "crypto_key_name" {
+  type = string
+}
