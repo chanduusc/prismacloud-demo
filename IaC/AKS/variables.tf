@@ -49,3 +49,8 @@ variable "create_acr" {
   description = "Create ACR. If this is set to true, create_requirements must also be true"
   default     = false
 }
+
+variable "acr_tags" {
+  type    = map(any)
+  default = null
+}

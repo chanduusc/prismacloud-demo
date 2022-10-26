@@ -22,3 +22,8 @@ variable "demo_user_username" {
   type        = string
   description = "Username for the demo user to to grant access to ECR"
 }
+
+variable "eks_tags" {
+  type    = map(any)
+  default = null
+}
