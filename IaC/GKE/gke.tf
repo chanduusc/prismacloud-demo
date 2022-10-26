@@ -21,7 +21,6 @@ data "google_container_engine_versions" "gke-kube-version" {
 
 resource "google_container_cluster" "cluster" {
   # checkov:skip=CKV_GCP_24: Requires google-beta provider
-  # checkov:skip=CKV_GCP_66: Demo images will not be cryptographically signed
   # checkov:skip=CKV_GCP_65: No need for Groups at demo scale
   # checkov:skip=CKV_GCP_20: Cluster needs to be reachable from the internet for GH actions
   name     = "${var.prefix}-${random_string.password.result}"
@@ -184,6 +183,10 @@ resource "google_container_cluster" "cluster" {
   database_encryption {
     state    = "ENCRYPTED"
     key_name = var.create_requirements ? google_kms_crypto_key_iam_member.gke_key_iam[0].crypto_key_id : data.google_kms_crypto_key.gke_key.id
+  }
+
+  binary_authorization {
+    evaluation_mode = "PROJECT_SINGLETON_POLICY_ENFORCE"
   }
 }
 
