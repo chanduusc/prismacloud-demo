@@ -23,7 +23,6 @@ resource "aws_iam_policy" "get_auth_token_pol" {
     Version : "2012-10-17",
     Statement : [
       {
-        Sid : "Stmt1665079109978",
         Action : [
           "ecr:GetAuthorizationToken"
         ],
@@ -34,7 +33,7 @@ resource "aws_iam_policy" "get_auth_token_pol" {
   })
 }
 
-resource "aws_iam_user_policy_attachment" "test-attach" {
+resource "aws_iam_user_policy_attachment" "get_auth_token_attach" {
   user       = var.demo_user_username
   policy_arn = aws_iam_policy.get_auth_token_pol.arn
 }
