@@ -5,7 +5,8 @@ Required Terraform variables:
 | `subscription_id` | Azure subscription ID | `3af20890-a345-4789-ae66-e354df6680b9` |
 | `prefix ` | Prefix for all reasource names | `username-pc-demo` | 
 | `image_repository` | Name for the ACR repo. Ignored if `create_acr != true`. | `pythonserver` |
-|
+| `gh_token` | GitHub token with r/w access to the specific repo secrets | `github_pat_XXX` |
+| `gh_repo` | Name of the GitHub repository | `pc-demo` |
 
 Pre-requisites:
 | Variable | Description | Example |

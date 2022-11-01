@@ -9,12 +9,12 @@
 ### Azure
 | Secret | Description | Example |
 | --- | --- | --- |
-| `AZURE_CREDENTIALS` | Service principal secrets JSON. If the provided AKS IaC is use then this is the "value" in the output of `terraform output -json` | <pre>{<br>    "clientId": "61c9a3cd-000d-4a4d-963a-f28c7c050c02",<br/>    (...)<br/>}</pre> |
-| `REGISTRY_LOGIN_SERVER` | ACR repo FQDN | `pythonserver.azurecr.io` |
-| `REGISTRY_USERNAME` | `clientId` value from `AZURE_CREDENTIALS` | `61c9a3cd-000d-4a4d-963a-f28c7c050c02` |
-| `REGISTRY_PASSWORD` | `clientSecret` value from `AZURE_CREDENTIALS` | `abc123YB0MXBd9tOFRufFTbiQ1el.rF8S6_DvzuAJYQz2f` |
-| `RESOURCE_GROUP` | Name od the RG containing EKS | `pc-demo-rg` |
-| `CLUSTER_NAME` | EKS cluster name | `pc-demo-eks` |
+| `AZURE_CREDENTIALS` | Service principal secrets JSON. Should be auto-populated by TF. | <pre>{<br>    "clientId": "61c9a3cd-000d-4a4d-963a-f28c7c050c02",<br/>    (...)<br/>}</pre> |
+| `REGISTRY_LOGIN_SERVER` | ACR repo FQDN. Should be auto-populated by TF. | `pythonserver.azurecr.io` |
+| `REGISTRY_USERNAME` | `clientId` value from `AZURE_CREDENTIALS`. Should be auto-populated by TF. | `61c9a3cd-000d-4a4d-963a-f28c7c050c02` |
+| `REGISTRY_PASSWORD` | `clientSecret` value from `AZURE_CREDENTIALS`. Should be auto-populated by TF. | `abc123YB0MXBd9tOFRufFTbiQ1el.rF8S6_DvzuAJYQz2f` |
+| `RESOURCE_GROUP` | Name od the RG containing EKS. Should be auto-populated by TF. | `pc-demo-rg` |
+| `CLUSTER_NAME` | EKS cluster name. Should be auto-populated by TF. | `pc-demo-eks` |
 
 ### AWS
 | Secret | Description | Example |
