@@ -29,8 +29,8 @@
 ### GCP
 | Secret | Description | Example |
 | --- | --- | --- |
-| `GKE_SA_KEY` | Contents of credentials JSON file for the service account | <pre>{<br/>  "type": "service_account",<br/>  (...)<br/>}</pre> |
-| `GKE_PROJECT` | Name of the GCP project containing GKE (available in terraform outputs) | `pc-demo` |
-| `GKE_CLUSTER` | Name of the GKE cluster (available in terraform outputs) | `pc-demo-gke` |
-| `GKE_ZONE ` | Name of the GKE GCP zone (available in terraform outputs) | `europe-west4-c` | 
+| `GKE_SA_KEY` | Contents of credentials JSON file for the service account. Should be auto-populated by TF. | <pre>{<br/>  "type": "service_account",<br/>  (...)<br/>}</pre> |
+| `GKE_PROJECT` | Name of the GCP project containing GKE (available in terraform outputs). Should be auto-populated by TF. | `pc-demo` |
+| `GKE_CLUSTER` | Name of the GKE cluster (available in terraform outputs). Should be auto-populated by TF. | `pc-demo-gke` |
+| `GKE_ZONE ` | Name of the GKE GCP zone (available in terraform outputs). Should be auto-populated by TF. | `europe-west4-c` | 
 | `IMAGE` | Name of the docker image | `pythonserver` |
