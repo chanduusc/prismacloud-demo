@@ -216,3 +216,27 @@ resource "helm_release" "aws_load_balancer_controller" {
     aws_security_group.allow_lb_sg
   ]
 }
+
+resource "aws_iam_policy" "describe_cluster_pol" {
+  name        = "DescribeCluster"
+  description = "Allow user ability to auth to private ECR repos"
+
+  policy = jsonencode({
+    Version : "2012-10-17",
+    Statement : [
+      {
+        Action : [
+          "eks:DescribeCluster"
+        ],
+        Effect : "Allow",
+        Resource : "${module.eks.cluster_arn}"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_user_policy_attachment" "describe_cluster_attach" {
+  user       = var.demo_user_username
+  policy_arn = aws_iam_policy.describe_cluster_pol.arn
+}
+

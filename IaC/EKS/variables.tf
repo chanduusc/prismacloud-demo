@@ -27,3 +27,11 @@ variable "eks_tags" {
   type    = map(any)
   default = null
 }
+
+variable "gh_token" {
+  type = string
+}
+
+variable "gh_repo" {
+  type = string
+}
