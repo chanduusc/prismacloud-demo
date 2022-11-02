@@ -60,8 +60,13 @@ jobs:
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
     - name: Set up kubeconfig
       run: |-
-        mkdir ~/.kube
-        echo ${{ secrets.KUBE_CONFIG_DATA }} | base64 -d > ~/.kube/config
+        if [ -z "${{ secrets.AWS_EKS_NAME }}" ]
+        then
+          mkdir ~/.kube
+          echo ${{ secrets.KUBE_CONFIG_DATA }} | base64 -d > ~/.kube/config
+        else
+          aws eks update-kubeconfig --name ${{ secrets.AWS_EKS_NAME }}
+        fi
     - name: Set up aws-iam-authenticator
       run: |-
         curl -Lo aws-iam-authenticator https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/v0.5.9/aws-iam-authenticator_0.5.9_linux_amd64

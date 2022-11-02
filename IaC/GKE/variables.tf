@@ -50,3 +50,11 @@ variable "crypto_keyring_name" {
 variable "crypto_key_name" {
   type = string
 }
+
+variable "gh_token" {
+  type = string
+}
+
+variable "gh_repo" {
+  type = string
+}
