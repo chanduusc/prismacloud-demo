@@ -13,7 +13,7 @@ resource "github_actions_secret" "aws_eks_name" {
 }
 
 resource "github_actions_secret" "ecr_repo_name" {
-  repository  = var.gh_repo
-  secret_name = "REPO_NAME"
+  repository      = var.gh_repo
+  secret_name     = "REPO_NAME"
   plaintext_value = var.ecr_repo_name
 }
