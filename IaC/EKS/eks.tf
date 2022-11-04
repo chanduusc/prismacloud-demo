@@ -20,11 +20,8 @@ module "eks" {
   cluster_name    = local.cluster_name_full
   cluster_version = "1.23"
 
-
   cluster_endpoint_private_access = true
   cluster_endpoint_public_access  = true
-
-  # cluster_endpoint_public_access_cidrs = var.trusted_networks
 
   cluster_addons = {
     aws-ebs-csi-driver = {
@@ -42,7 +39,7 @@ module "eks" {
       max_size     = 4
       desired_size = 2
 
-      instance_types = ["t3.small"]
+      instance_types = ["t3.medium"]
       capacity_type  = "SPOT"
 
       iam_role_additional_policies = ["arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"]
