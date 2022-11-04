@@ -79,3 +79,15 @@ resource "azurerm_role_assignment" "sp_aks_rbac" {
   principal_id         = var.create_requirements ? azuread_service_principal.sp[0].id : var.client_id
   scope                = "${azurerm_kubernetes_cluster.aks_cluster.id}/namespaces/default"
 }
+
+resource "null_resource" "run_provisioner" {
+  count = var.run_provisioner ? 1 : 0
+  provisioner "local-exec" {
+    environment = {
+      CSP            = "AZURE",
+      AZURE_AKS_NAME = azurerm_kubernetes_cluster.aks_cluster.name,
+      AZURE_RG       = azurerm_kubernetes_cluster.aks_cluster.resource_group_name
+    }
+    command = var.provisioner_path
+  }
+}
