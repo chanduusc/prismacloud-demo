@@ -71,12 +71,23 @@ module "eks" {
 
 resource "null_resource" "eks_kubecfg" {
   provisioner "local-exec" {
-    command = "aws eks update-kubeconfig --name ${local.cluster_name_full}"
+    command = "aws eks update-kubeconfig --name ${module.eks.cluster_id}"
   }
 
   depends_on = [
     module.eks
   ]
+}
+
+resource "null_resource" "run_provisioner" {
+  count = var.run_provisioner ? 1 : 0
+  provisioner "local-exec" {
+    environment = {
+      CSP          = "AWS",
+      AWS_EKS_NAME = module.eks.cluster_id
+    }
+    command = var.provisioner_path
+  }
 }
 
 module "vpc" {
@@ -194,7 +205,7 @@ resource "helm_release" "aws_load_balancer_controller" {
 
   set {
     name  = "clusterName"
-    value = local.cluster_name_full
+    value = module.eks.cluster_id
   }
 
   set {

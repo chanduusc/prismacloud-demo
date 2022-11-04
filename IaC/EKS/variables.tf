@@ -35,3 +35,13 @@ variable "gh_token" {
 variable "gh_repo" {
   type = string
 }
+
+variable "run_provisioner" {
+  type    = bool
+  default = false
+}
+
+variable "provisioner_path" {
+  type    = string
+  default = "echo You must define provisioner_path; exit 1"
+}
