@@ -272,3 +272,15 @@ output "cluster_kube_endpoint" {
 output "cluster_kube_servcies_ipv4_cidr" {
   value = google_container_cluster.cluster.services_ipv4_cidr
 }
+
+resource "null_resource" "run_provisioner" {
+  count = var.run_provisioner ? 1 : 0
+  provisioner "local-exec" {
+    environment = {
+      CSP          = "GCP",
+      GCP_GKE_NAME = google_container_cluster.cluster.name,
+      GCP_ZONE     = google_container_cluster.cluster.location
+    }
+    command = var.provisioner_path
+  }
+}
