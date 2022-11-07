@@ -68,3 +68,8 @@ variable "provisioner_path" {
   type    = string
   default = "echo You must define provisioner_path; exit 1"
 }
+
+variable "argocd_git_repo" {
+  type    = string
+  default = null
+}
