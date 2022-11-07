@@ -45,7 +45,7 @@ module "eks" {
       iam_role_additional_policies = ["arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"]
     }
   }
-   node_security_group_additional_rules = {
+  node_security_group_additional_rules = {
     ingress_allow_access_from_control_plane = {
       type                          = "ingress"
       protocol                      = "tcp"
@@ -63,28 +63,20 @@ module "eks" {
       description                   = "Allow access from kubeseal to fetch cert"
     },
     ingress_allow_access_from_nodes = {
-      type                          = "ingress"
-      protocol                      = "-1"
-      from_port                     = 0
-      to_port                       = 0
-      self                          = true
-      description                   = "allow_access_between_nodes_ingress"
-    },
-    egress_allow_argoCD_github = {
-      type                          = "egress"
-      protocol                      = "tcp"
-      from_port                     = 443
-      to_port                       = 443
-      cidr_blocks      				= ["0.0.0.0/0"]
-      description                   = "Allow HTTPS to github"
+      type        = "ingress"
+      protocol    = "-1"
+      from_port   = 0
+      to_port     = 0
+      self        = true
+      description = "allow_access_between_nodes_ingress"
     },
     egress_allow_from_nodes = {
-      type                          = "egress"
-      protocol                      = "-1"
-      from_port                     = 0
-      to_port                       = 0
-      self                          = true
-      description                   = "allow_access_between_nodes_egress"
+      type        = "egress"
+      protocol    = "-1"
+      from_port   = 0
+      to_port     = 0
+      self        = true
+      description = "allow_access_between_nodes_egress"
     }
   }
 
