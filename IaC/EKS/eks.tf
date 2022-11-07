@@ -45,7 +45,7 @@ module "eks" {
       iam_role_additional_policies = ["arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"]
     }
   }
-  node_security_group_additional_rules = {
+   node_security_group_additional_rules = {
     ingress_allow_access_from_control_plane = {
       type                          = "ingress"
       protocol                      = "tcp"
@@ -53,8 +53,41 @@ module "eks" {
       to_port                       = 9443
       source_cluster_security_group = true
       description                   = "Allow access from control plane to webhook port of AWS load balancer controller"
+    },
+    ingress_allow_access_for_kubeseal = {
+      type                          = "ingress"
+      protocol                      = "tcp"
+      from_port                     = 8080
+      to_port                       = 8080
+      source_cluster_security_group = true
+      description                   = "Allow access from kubeseal to fetch cert"
+    },
+    ingress_allow_access_from_nodes = {
+      type                          = "ingress"
+      protocol                      = "-1"
+      from_port                     = 0
+      to_port                       = 0
+      self                          = true
+      description                   = "allow_access_between_nodes_ingress"
+    },
+    egress_allow_argoCD_github = {
+      type                          = "egress"
+      protocol                      = "tcp"
+      from_port                     = 443
+      to_port                       = 443
+      cidr_blocks      				= ["0.0.0.0/0"]
+      description                   = "Allow HTTPS to github"
+    },
+    egress_allow_from_nodes = {
+      type                          = "egress"
+      protocol                      = "-1"
+      from_port                     = 0
+      to_port                       = 0
+      self                          = true
+      description                   = "allow_access_between_nodes_egress"
     }
   }
+
 
   manage_aws_auth_configmap = true
 
