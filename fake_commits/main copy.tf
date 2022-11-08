@@ -32,6 +32,18 @@ resource "aws_s3_bucket" "fc19torg_log_bucket" {
   bucket = "fc19torg-log-bucket"
 }
 
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "fc19torg_log_bucket" {
+  bucket = aws_s3_bucket.fc19torg_log_bucket.bucket
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm     = "AES256"
+    }
+  }
+}
+
+
 resource "aws_s3_bucket_logging" "fc19torg" {
   bucket = aws_s3_bucket.fc19torg.id
 

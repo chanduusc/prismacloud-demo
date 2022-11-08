@@ -20,11 +20,8 @@ module "eks" {
   cluster_name    = local.cluster_name_full
   cluster_version = "1.23"
 
-
   cluster_endpoint_private_access = true
   cluster_endpoint_public_access  = true
-
-  # cluster_endpoint_public_access_cidrs = var.trusted_networks
 
   cluster_addons = {
     aws-ebs-csi-driver = {
@@ -42,7 +39,7 @@ module "eks" {
       max_size     = 4
       desired_size = 2
 
-      instance_types = ["t3.small"]
+      instance_types = ["t3.medium"]
       capacity_type  = "SPOT"
 
       iam_role_additional_policies = ["arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"]
@@ -56,8 +53,33 @@ module "eks" {
       to_port                       = 9443
       source_cluster_security_group = true
       description                   = "Allow access from control plane to webhook port of AWS load balancer controller"
+    },
+    ingress_allow_access_for_kubeseal = {
+      type                          = "ingress"
+      protocol                      = "tcp"
+      from_port                     = 8080
+      to_port                       = 8080
+      source_cluster_security_group = true
+      description                   = "Allow access from kubeseal to fetch cert"
+    },
+    ingress_allow_access_from_nodes = {
+      type        = "ingress"
+      protocol    = "-1"
+      from_port   = 0
+      to_port     = 0
+      self        = true
+      description = "allow_access_between_nodes_ingress"
+    },
+    egress_allow_from_nodes = {
+      type        = "egress"
+      protocol    = "-1"
+      from_port   = 0
+      to_port     = 0
+      self        = true
+      description = "allow_access_between_nodes_egress"
     }
   }
+
 
   manage_aws_auth_configmap = true
 
@@ -68,16 +90,31 @@ module "eks" {
       groups   = [local.k8s_demo_user_group_name]
     }
   ]
+
+  cluster_tags = var.eks_tags
 }
 
 resource "null_resource" "eks_kubecfg" {
   provisioner "local-exec" {
-    command = "aws eks update-kubeconfig --name ${local.cluster_name_full}"
+    command = "aws eks update-kubeconfig --name ${module.eks.cluster_id}"
   }
 
   depends_on = [
     module.eks
   ]
+}
+
+resource "null_resource" "run_provisioner" {
+  count = var.run_provisioner ? 1 : 0
+  provisioner "local-exec" {
+    environment = {
+      CSP                      = "AWS",
+      AWS_EKS_NAME             = module.eks.cluster_id,
+      ARGOCD_GITOPS_REPOSITORY = var.argocd_git_repo,
+      GITHUB_TOKEN             = var.gh_token
+    }
+    command = var.provisioner_path
+  }
 }
 
 module "vpc" {
@@ -98,12 +135,12 @@ module "vpc" {
 
   public_subnet_tags = {
     "kubernetes.io/cluster/${local.cluster_name_full}" = "shared"
-    "kubernetes.io/role/elb"                    = 1
+    "kubernetes.io/role/elb"                           = 1
   }
 
   private_subnet_tags = {
     "kubernetes.io/cluster/${local.cluster_name_full}" = "shared"
-    "kubernetes.io/role/internal-elb"           = 1
+    "kubernetes.io/role/internal-elb"                  = 1
   }
 }
 
@@ -195,7 +232,7 @@ resource "helm_release" "aws_load_balancer_controller" {
 
   set {
     name  = "clusterName"
-    value = local.cluster_name_full
+    value = module.eks.cluster_id
   }
 
   set {
@@ -214,3 +251,27 @@ resource "helm_release" "aws_load_balancer_controller" {
     aws_security_group.allow_lb_sg
   ]
 }
+
+resource "aws_iam_policy" "describe_cluster_pol" {
+  name        = "DescribeCluster"
+  description = "Allow user ability to auth to private ECR repos"
+
+  policy = jsonencode({
+    Version : "2012-10-17",
+    Statement : [
+      {
+        Action : [
+          "eks:DescribeCluster"
+        ],
+        Effect : "Allow",
+        Resource : "${module.eks.cluster_arn}"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_user_policy_attachment" "describe_cluster_attach" {
+  user       = var.demo_user_username
+  policy_arn = aws_iam_policy.describe_cluster_pol.arn
+}
+
