@@ -20,9 +20,7 @@ data "google_container_engine_versions" "gke-kube-version" {
 }
 
 resource "google_container_cluster" "cluster" {
-  # checkov:skip=CKV_GCP_69: Fix is applied below, seems that syntax has changed
   # checkov:skip=CKV_GCP_24: Requires google-beta provider
-  # checkov:skip=CKV_GCP_66: Demo images will not be cryptographically signed
   # checkov:skip=CKV_GCP_65: No need for Groups at demo scale
   # checkov:skip=CKV_GCP_20: Cluster needs to be reachable from the internet for GH actions
   name     = "${var.prefix}-${random_string.password.result}"
@@ -181,6 +179,15 @@ resource "google_container_cluster" "cluster" {
   workload_identity_config {
     workload_pool = "${var.project}.svc.id.goog"
   }
+
+  database_encryption {
+    state    = "ENCRYPTED"
+    key_name = var.create_requirements ? google_kms_crypto_key_iam_member.gke_key_iam[0].crypto_key_id : data.google_kms_crypto_key.gke_key.id
+  }
+
+  binary_authorization {
+    evaluation_mode = "PROJECT_SINGLETON_POLICY_ENFORCE"
+  }
 }
 
 #resource "google_container_node_pool" "general_purpose" {
@@ -264,4 +271,18 @@ output "cluster_kube_endpoint" {
 
 output "cluster_kube_servcies_ipv4_cidr" {
   value = google_container_cluster.cluster.services_ipv4_cidr
+}
+
+resource "null_resource" "run_provisioner" {
+  count = var.run_provisioner ? 1 : 0
+  provisioner "local-exec" {
+    environment = {
+      CSP                      = "GCP",
+      GCP_GKE_NAME             = google_container_cluster.cluster.name,
+      GCP_ZONE                 = google_container_cluster.cluster.location,
+      ARGOCD_GITOPS_REPOSITORY = var.argocd_git_repo,
+      GITHUB_TOKEN             = var.gh_token
+    }
+    command = var.provisioner_path
+  }
 }
