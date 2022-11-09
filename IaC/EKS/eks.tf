@@ -104,19 +104,6 @@ resource "null_resource" "eks_kubecfg" {
   ]
 }
 
-resource "null_resource" "run_provisioner" {
-  count = var.run_provisioner ? 1 : 0
-  provisioner "local-exec" {
-    environment = {
-      CSP                      = "AWS",
-      AWS_EKS_NAME             = module.eks.cluster_id,
-      ARGOCD_GITOPS_REPOSITORY = var.argocd_git_repo,
-      GITHUB_TOKEN             = var.gh_token
-    }
-    command = var.provisioner_path
-  }
-}
-
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
 
