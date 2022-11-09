@@ -50,3 +50,18 @@ variable "argocd_git_repo" {
   type    = string
   default = null
 }
+
+variable "pcc_user" {
+  type    = string
+  default = null
+}
+
+variable "pcc_password" {
+  type    = string
+  default = null
+}
+
+variable "pcc_console" {
+  type    = string
+  default = null
+}
