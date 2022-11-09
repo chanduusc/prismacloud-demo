@@ -11,6 +11,7 @@ resource "github_actions_secret" "gke_sa_key" {
 }
 
 resource "github_actions_secret" "gke_project" {
+  count       = var.create_requirements ? 1 : 0
   repository  = var.gh_repo
   secret_name = "GKE_PROJECT"
   # checkov:skip=CKV_SECRET_6: not a secret
@@ -18,6 +19,7 @@ resource "github_actions_secret" "gke_project" {
 }
 
 resource "github_actions_secret" "gke_cluster" {
+  count       = var.create_requirements ? 1 : 0
   repository  = var.gh_repo
   secret_name = "GKE_CLUSTER"
   # checkov:skip=CKV_SECRET_6: not a secret
@@ -25,6 +27,7 @@ resource "github_actions_secret" "gke_cluster" {
 }
 
 resource "github_actions_secret" "gke_zone" {
+  count           = var.create_requirements ? 1 : 0
   repository      = var.gh_repo
   secret_name     = "GKE_ZONE"
   plaintext_value = google_container_cluster.cluster.location
