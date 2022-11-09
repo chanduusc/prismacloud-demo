@@ -42,7 +42,7 @@ resource "github_actions_secret" "registry_login_server" {
 }
 
 resource "github_actions_secret" "resource_group" {
-  count       = var.create_acr ? 1 : 0
+  count       = var.create_requirements ? 1 : 0
   repository  = var.gh_repo
   secret_name = "RESOURCE_GROUP"
   # checkov:skip=CKV_SECRET_6: not a secret
@@ -50,7 +50,7 @@ resource "github_actions_secret" "resource_group" {
 }
 
 resource "github_actions_secret" "cluster_name" {
-  count       = var.create_acr ? 1 : 0
+  count       = var.create_requirements ? 1 : 0
   repository  = var.gh_repo
   secret_name = "CLUSTER_NAME"
   # checkov:skip=CKV_SECRET_6: not a secret
