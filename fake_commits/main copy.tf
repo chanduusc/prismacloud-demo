@@ -28,10 +28,63 @@ resource "aws_s3_bucket" "fc19torg" {
 }
 
 
+resource "aws_s3_bucket_server_side_encryption_configuration" "fc19torg" {
+  bucket = aws_s3_bucket.fc19torg.bucket
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm     = "AES256"
+    }
+  }
+}
+
+
+
+
+resource "aws_s3_bucket_versioning" "fc19torg" {
+  bucket = aws_s3_bucket.fc19torg.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "fc19torg" {
+  bucket = aws_s3_bucket.fc19torg.bucket
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm     = "aws:kms"
+    }
+  }
+}
+
 resource "aws_s3_bucket" "fc19torg_log_bucket" {
   bucket = "fc19torg-log-bucket"
 }
 
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "fc19torg_log_bucket" {
+  bucket = aws_s3_bucket.fc19torg_log_bucket.bucket
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm     = "aws:kms"
+    }
+  }
+}
+
+
+
+
+resource "aws_s3_bucket_versioning" "fc19torg_log_bucket" {
+  bucket = aws_s3_bucket.fc19torg_log_bucket.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "fc19torg_log_bucket" {
   bucket = aws_s3_bucket.fc19torg_log_bucket.bucket
@@ -110,13 +163,13 @@ resource "aws_s3_bucket" "frontend" {
   acl    = "private"
 
   versioning {
-    enabled = false
+    enabled = true
   }
 
   server_side_encryption_configuration {
     rule {
       apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
+        sse_algorithm = "aws:kms"
       }
     }
   }
@@ -133,6 +186,19 @@ resource "aws_s3_bucket" "frontend" {
     prevent_destroy = true
   }
 }
+
+
+resource "aws_s3_bucket" "frontend_log_bucket" {
+  bucket = "frontend-log-bucket"
+}
+
+resource "aws_s3_bucket_logging" "frontend" {
+  bucket = aws_s3_bucket.frontend.id
+
+  target_bucket = aws_s3_bucket.frontend_log_bucket.id
+  target_prefix = "log/"
+}
+
 
 # Allow CF OAI to access bucket
 resource "aws_s3_bucket_policy" "frontend" {
@@ -285,6 +351,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   price_class = "100"
 
   viewer_certificate {
+    minimum_protocol_version = "TLSv1.2_2021"
     acm_certificate_arn = "acm-arn-here"
     ssl_support_method = "sni-only"
   }
