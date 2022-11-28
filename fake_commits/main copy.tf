@@ -33,6 +33,16 @@ resource "aws_s3_bucket" "fc19torg_log_bucket" {
 }
 
 
+resource "aws_s3_bucket_versioning" "fc19torg_log_bucket" {
+  bucket = aws_s3_bucket.fc19torg_log_bucket.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+
+
 resource "aws_s3_bucket_server_side_encryption_configuration" "fc19torg_log_bucket" {
   bucket = aws_s3_bucket.fc19torg_log_bucket.bucket
 
