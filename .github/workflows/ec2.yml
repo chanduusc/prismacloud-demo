@@ -47,7 +47,7 @@ jobs:
         with:
           api-key: ${{ secrets.BC_API_KEY }}
           soft_fail: true
-          download-external-modules: true
+          download_external_modules: true
      # Step 6 
       - name: Build Application and Run unit Test
         run: python app.py & pytest
