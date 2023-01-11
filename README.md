@@ -1,4 +1,3 @@
-
 ## Secrets 
 ### Shared
 | Secret | Description | Example |
