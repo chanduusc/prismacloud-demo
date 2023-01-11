@@ -1,4 +1,3 @@
-
 ## Secrets 
 ### Shared
 | Secret | Description | Example |
@@ -34,3 +33,4 @@
 | `GKE_CLUSTER` | Name of the GKE cluster (available in terraform outputs). Should be auto-populated by TF. | `pc-demo-gke` |
 | `GKE_ZONE ` | Name of the GKE GCP zone (available in terraform outputs). Should be auto-populated by TF. | `europe-west4-c` | 
 | `IMAGE` | Name of the docker image | `pythonserver` |
+
