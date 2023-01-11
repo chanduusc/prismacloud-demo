@@ -61,6 +61,7 @@ jobs:
       with:
         api-key: ${{ secrets.BC_API_KEY }}
         soft_fail: true
+        download-external-modules: true
 
     - name: Update Django application using zappa
       run: |
