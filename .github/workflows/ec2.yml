@@ -47,6 +47,7 @@ jobs:
         with:
           api-key: ${{ secrets.BC_API_KEY }}
           soft_fail: true
+          directory: "fake_commits"
           # download_external_modules: true
      # Step 6 
       - name: Build Application and Run unit Test
