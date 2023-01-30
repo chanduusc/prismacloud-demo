@@ -18,6 +18,7 @@ class MyServer(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(bytes("<html><head><title>Prisma Cloud Demo</title></head>", "utf-8"))
         self.wfile.write(bytes("<p>Host Requested: %s</p>" % self.headers.get('Host'), "utf-8"))
+        self.wfile.write(bytes("<p>XFF Requested: %s</p>" % self.headers.getlist("X-Forwarded-For"), "utf-8"))
         self.wfile.write(bytes("<p>Command: %s</p>" % self.command, "utf-8"))
         self.wfile.write(bytes("<p>HTTP Req version: %s</p>" % self.request_version, "utf-8"))
         self.wfile.write(bytes("<p>Path: %s</p>" % self.path, "utf-8"))
