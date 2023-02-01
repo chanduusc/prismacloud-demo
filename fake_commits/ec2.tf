@@ -40,6 +40,7 @@ resource "aws_ebs_volume" "web_host_storage" {
     git_org              = "pc-bd-sa"
     git_repo             = "pc-terraform-iac-scanning"
   })
+  encrypted = true
 }
 
 resource "aws_ebs_snapshot" "example_snapshot" {
