@@ -1,4 +1,4 @@
-## CNAPP - Prisma Cloud
+## CNAPP - Prisma Cloud Demo
 
 ## Secrets 
 ### Shared
