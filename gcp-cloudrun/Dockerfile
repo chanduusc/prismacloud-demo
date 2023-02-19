@@ -1,6 +1,7 @@
 FROM ubuntu:latest
 COPY wild.py /
-RUN DEBIAN_FRONTEND="noninteractive" apt update -y && apt install python3-pip git curl wget awscli -y
+RUN  apt update -y && apt install python3-pip git curl wget  -y
+RUN pip3 --no-cache-dir install --upgrade awscli boto3
 RUN pip3 install gitpython
 
 # Twistlock Container Defender - app embedded
