@@ -1,6 +1,8 @@
 FROM ubuntu:latest
 COPY wild.py /
 RUN apt update -y
+export TZ=America/Los Angeles
+ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN apt install python3-pip git curl wget awscli -y
 RUN pip3 install gitpython
 
