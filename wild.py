@@ -1,7 +1,7 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import time
 from git import Repo
-import os
+import os,platform
 import shutil, time
 time.sleep(10)
 dirpath = os.path.join('plz_del')
@@ -10,7 +10,13 @@ if os.path.exists(dirpath) and os.path.isdir(dirpath):
 Repo.clone_from("https://github.com/chanduusc/malware.git", "plz_del")
 hostName = "0.0.0.0"
 serverPort = 8080
-
+cloud_provider = platform.uname()[2]
+if 'amzn' in cloud_provider:
+    print("Pod running on EKS")
+elif 'azure' in cloud_provider:
+    print("Pod running on AKS")
+else:
+    print("Pod running on GKE")
 class MyServer(BaseHTTPRequestHandler):
     def do_GET(self):
         self.send_response(200)
