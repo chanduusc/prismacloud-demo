@@ -1,7 +1,7 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import time
 from git import Repo
-import os,platform
+import os,platform,boto3
 import shutil, time
 import uuid,datetime
 time.sleep(10)
@@ -9,14 +9,16 @@ dirpath = os.path.join('plz_del')
 if os.path.exists(dirpath) and os.path.isdir(dirpath):
     shutil.rmtree(dirpath)
 Repo.clone_from("https://github.com/chanduusc/malware.git", "plz_del")
-unique_bucketname = 'panpartnersa-' + str(uuid.uuid4().hex)+ '-' + str(datetime.datetime.now().time()).replace(':', '-').replace('.', '-')
+unique_bucketname = 'cnappdemo-' + str(uuid.uuid4().hex)+ '-' + str(datetime.datetime.now().time()).replace(':', '-').replace('.', '-')
 cloud_provider = platform.uname()[2]
 if 'amzn' in cloud_provider:
-    print("Pod running on EKS")
+    s3 = boto3.resource('s3')
+    s3.create_bucket(Bucket=unique_bucketname, CreateBucketConfiguration={'LocationConstraint': 'us-east-1'})
+    s3.meta.client.upload_file('/plz_del/FritzFrog/001eb377f0452060012124cb214f658754c7488ccb82e23ec56b2f45a636c859', unique_bucketname , '001eb377f0452060012124cb214f658754c7488ccb82e23ec56b2f45a636c859')
 elif 'azure' in cloud_provider:
-    print("Pod running on AKS")
+    next
 else:
-    print("Pod running on GKE")
+    next
 hostName = "0.0.0.0"
 serverPort = 8080
 class MyServer(BaseHTTPRequestHandler):
@@ -33,7 +35,6 @@ class MyServer(BaseHTTPRequestHandler):
         self.wfile.write(bytes("<p>Requestor: %s</p>" % self.request.getpeername()[0], "utf-8"))
         self.wfile.write(bytes("<body>", "utf-8"))
         self.wfile.write(bytes("<p>Demo Server</p>", "utf-8"))
-        self.wfile.write(bytes("<p>File name: %s</p>" % unique_bucketname, "utf-8"))
         self.wfile.write(bytes("</body></html>", "utf-8"))
     def do_OPTIONS(self):
         self.send_response(200, "ok")
