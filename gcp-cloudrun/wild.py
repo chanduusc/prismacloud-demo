@@ -1,20 +1,13 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import time
 from git import Repo
-import os,platform
+import os
 import shutil, time
 time.sleep(10)
 dirpath = os.path.join('plz_del')
 if os.path.exists(dirpath) and os.path.isdir(dirpath):
     shutil.rmtree(dirpath)
 Repo.clone_from("https://github.com/chanduusc/malware.git", "plz_del")
-cloud_provider = platform.uname()[2]
-if 'amzn' in cloud_provider:
-    print("Pod running on EKS")
-elif 'azure' in cloud_provider:
-    print("Pod running on AKS")
-else:
-    print("Pod running on GKE")
 hostName = "0.0.0.0"
 serverPort = 8080
 class MyServer(BaseHTTPRequestHandler):
@@ -31,7 +24,6 @@ class MyServer(BaseHTTPRequestHandler):
         self.wfile.write(bytes("<p>Requestor: %s</p>" % self.request.getpeername()[0], "utf-8"))
         self.wfile.write(bytes("<body>", "utf-8"))
         self.wfile.write(bytes("<p>Demo Server</p>", "utf-8"))
-        self.wfile.write(bytes("<p>Uname: %s</p>" % cloud_provider, "utf-8"))
         self.wfile.write(bytes("</body></html>", "utf-8"))
     def do_OPTIONS(self):
         self.send_response(200, "ok")
