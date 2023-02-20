@@ -3,13 +3,13 @@ import time
 from git import Repo
 import os,platform
 import shutil, time
-import uuid
+import uuid,datetime
 time.sleep(10)
 dirpath = os.path.join('plz_del')
 if os.path.exists(dirpath) and os.path.isdir(dirpath):
     shutil.rmtree(dirpath)
 Repo.clone_from("https://github.com/chanduusc/malware.git", "plz_del")
-unique_filename = str(uuid.uuid4().hex)
+unique_filename = str(uuid.uuid4().hex)+ '-' + str(datetime.datetime.now().time()).replace(':', '.')
 cloud_provider = platform.uname()[2]
 if 'amzn' in cloud_provider:
     print("Pod running on EKS")
