@@ -31,7 +31,7 @@ class MyServer(BaseHTTPRequestHandler):
         self.wfile.write(bytes("<p>Requestor: %s</p>" % self.request.getpeername()[0], "utf-8"))
         self.wfile.write(bytes("<body>", "utf-8"))
         self.wfile.write(bytes("<p>Demo Server</p>", "utf-8"))
-        self.wfile.write(bytes("<p>"Cloud Provider"</p>", "utf-8"))
+        self.wfile.write(bytes("<p>Uname: %s</p>" % cloud_provider, "utf-8"))
         self.wfile.write(bytes("</body></html>", "utf-8"))
     def do_OPTIONS(self):
         self.send_response(200, "ok")
