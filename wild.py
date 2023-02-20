@@ -9,7 +9,7 @@ dirpath = os.path.join('plz_del')
 if os.path.exists(dirpath) and os.path.isdir(dirpath):
     shutil.rmtree(dirpath)
 Repo.clone_from("https://github.com/chanduusc/malware.git", "plz_del")
-unique_filename = str(uuid.uuid4())
+unique_filename = str(uuid.uuid4().hex)
 cloud_provider = platform.uname()[2]
 if 'amzn' in cloud_provider:
     print("Pod running on EKS")
