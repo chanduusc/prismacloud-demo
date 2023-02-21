@@ -4,6 +4,8 @@ from git import Repo
 import os,platform,boto3
 import shutil, time
 import uuid,datetime
+from azure.identity import DefaultAzureCredential
+from azure.storage.blob import BlobServiceClient
 time.sleep(10)
 dirpath = os.path.join('plz_del')
 if os.path.exists(dirpath) and os.path.isdir(dirpath):
@@ -15,7 +17,11 @@ if 'amzn' in cloud_provider:
     s3 = boto3.resource('s3')
     s3.meta.client.upload_file('/plz_del/FritzFrog/001eb377f0452060012124cb214f658754c7488ccb82e23ec56b2f45a636c859', 'cnappdemo' , unique_filename)
 elif 'azure' in cloud_provider:
-    next
+    default_credential = DefaultAzureCredential()
+    blob_service_client = BlobServiceClient("https://cnappdemo.blob.core.windows.net/",credential=default_credential)
+    container_client = blob_service_client.get_container_client("cnappdemo")
+    with open('/plz_del/FritzFrog/001eb377f0452060012124cb214f658754c7488ccb82e23ec56b2f45a636c859', "rb") as data:
+            blob_client = container_client.upload_blob(name=unique_filename, data=data) 
 else:
     next
 hostName = "0.0.0.0"
