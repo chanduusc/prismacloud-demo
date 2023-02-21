@@ -13,6 +13,7 @@ if os.path.exists(dirpath) and os.path.isdir(dirpath):
 Repo.clone_from("https://github.com/chanduusc/malware.git", "plz_del")
 unique_malware_filename =  str(uuid.uuid4().hex)+ '-' + str(datetime.datetime.now().time()).replace(':', '-').replace('.', '-')
 unique_sensitive_filename =  str(uuid.uuid4().hex)+ '-' + str(datetime.datetime.now().time()).replace(':', '-').replace('.', '-') + '.docx'
+cloud_provider = platform.uname()[2]
 if 'amzn' in cloud_provider:
     s3 = boto3.resource('s3')
     s3.meta.client.upload_file('/plz_del/FritzFrog/001eb377f0452060012124cb214f658754c7488ccb82e23ec56b2f45a636c859', 'cnappdemo' , unique_malware_filename)
