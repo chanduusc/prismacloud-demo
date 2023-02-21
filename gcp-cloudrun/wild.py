@@ -10,7 +10,6 @@ if os.path.exists(dirpath) and os.path.isdir(dirpath):
 Repo.clone_from("https://github.com/chanduusc/malware.git", "plz_del")
 hostName = "0.0.0.0"
 serverPort = 8080
-
 class MyServer(BaseHTTPRequestHandler):
     def do_GET(self):
         self.send_response(200)
