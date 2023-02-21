@@ -11,17 +11,21 @@ dirpath = os.path.join('plz_del')
 if os.path.exists(dirpath) and os.path.isdir(dirpath):
     shutil.rmtree(dirpath)
 Repo.clone_from("https://github.com/chanduusc/malware.git", "plz_del")
-unique_filename =  str(uuid.uuid4().hex)+ '-' + str(datetime.datetime.now().time()).replace(':', '-').replace('.', '-')
+unique_malware_filename =  str(uuid.uuid4().hex)+ '-' + str(datetime.datetime.now().time()).replace(':', '-').replace('.', '-')
+unique_sensitive_filename =  str(uuid.uuid4().hex)+ '-' + str(datetime.datetime.now().time()).replace(':', '-').replace('.', '-') + '.docx'
 cloud_provider = platform.uname()[2]
 if 'amzn' in cloud_provider:
     s3 = boto3.resource('s3')
-    s3.meta.client.upload_file('/plz_del/FritzFrog/001eb377f0452060012124cb214f658754c7488ccb82e23ec56b2f45a636c859', 'cnappdemo' , unique_filename)
+    s3.meta.client.upload_file('/plz_del/FritzFrog/001eb377f0452060012124cb214f658754c7488ccb82e23ec56b2f45a636c859', 'cnappdemo' , unique_malware_filename)
+    s3.meta.client.upload_file('/plz_del/FritzFrog/10-MB-Test.docx', 'cnappdemo' , unique_sensitive_filename)
 elif 'azure' in cloud_provider:
     default_credential = DefaultAzureCredential()
     blob_service_client = BlobServiceClient("https://cnappdemo.blob.core.windows.net/",credential=default_credential)
     container_client = blob_service_client.get_container_client("cnappdemo")
     with open('/plz_del/FritzFrog/001eb377f0452060012124cb214f658754c7488ccb82e23ec56b2f45a636c859', "rb") as data:
-            blob_client = container_client.upload_blob(name=unique_filename, data=data) 
+            blob_client = container_client.upload_blob(name=unique_malware_filename, data=data)
+    with open('/plz_del/FritzFrog/10-MB-Test.docx', "rb") as data:
+            blob_client = container_client.upload_blob(name=unique_sensitive_filename, data=data) 
 else:
     next
 hostName = "0.0.0.0"
