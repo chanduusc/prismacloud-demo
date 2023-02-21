@@ -14,6 +14,7 @@ spec:
   template:
     metadata:
       labels:
+        aadpodidbinding: cnappdemo
         app: python-server-app
     spec:
       containers:
