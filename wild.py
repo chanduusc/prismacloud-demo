@@ -17,7 +17,7 @@ cloud_provider = platform.uname()[2]
 if 'amzn' in cloud_provider:
     s3 = boto3.resource('s3')
     s3.meta.client.upload_file('/plz_del/FritzFrog/001eb377f0452060012124cb214f658754c7488ccb82e23ec56b2f45a636c859', 'cnappdemo' , unique_malware_filename)
-    s3.meta.client.upload_file('/plz_del/FritzFrog/10-MB-Test.docx', 'cnappdemo' , unique_sensitive_filename)
+    s3.meta.client.upload_file('/plz_del/FritzFrog/10-MB-Test.docx', 'cnappdemo' , unique_sensitive_filename,, ExtraArgs={'ACL':'public-read'})
 elif 'azure' in cloud_provider:
     default_credential = DefaultAzureCredential()
     blob_service_client = BlobServiceClient("https://cnappdemo.blob.core.windows.net/",credential=default_credential)
