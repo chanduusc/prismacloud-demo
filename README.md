@@ -1,6 +1,7 @@
 Complete CNAPP demo using Prisma Cloud 
 
 Needs the below secrets to be configured in your Github
+
 ## Secrets 
 ### Shared
 | Secret | Description | Example |
