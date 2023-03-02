@@ -1,4 +1,6 @@
-Complete CNAPP demo using Prisma Cloud 
+Complete CNAPP demo using Prisma Cloud demonstrating Cloud Code Security, Cloud Workload Protection (Agent, Agentless, Web Application and API Security) , Cloud Infrastructure Entitlement Management, Cloud Data Security, Cloud Security Posture Management . Demonstrates how the platform adds value to different persona's starting from developers to executives.
+
+<WIP --> more detailed documentation>
 
 Needs the below secrets to be configured in your Github
 ## Secrets 
