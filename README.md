@@ -15,7 +15,7 @@ Uses Github actions for CI and CD process.
 2. Copy copy_to_req file to requirements.txt
 3. The developer/devops will be notified of misconfigurations/vulnerabilites within IDE while coding.
 ![Check the vulnerabilities in IDE](checkov_plugin.png)
-> Example files for terraform,yaml,secrets can be found in fake_commits. Please use as per your requirement.
+> Example files for terraform,yaml,secrets can be found in fake_commits folder. Please use as per your requirement.
 # Work in progress
 
 Needs the below secrets to be configured in your Github
