@@ -29,9 +29,11 @@ Uses Github actions for CI and CD process.
 ### Review phase (Persona: Security team)
 1. Security team can see the same failures in Prisma Cloud console.
 2. Security team can submit fixes from Prisma Cloud console which will open a new PR against your repo.
+3. Prisma bot will mark the comments outdated once fixed.
 ![Check the vulnerabilities in PC Console](review_failed_pc_console.png)
 ![Submit fix from the PC Console](submit_pr_from_pc.png)
 ![Verify PR in the Github ](pr_opened_by_prisma_cloud.png)
+![Outdated activities after fixing the issue ](outdated_requirements.png)
 
 
 # Work in progress
