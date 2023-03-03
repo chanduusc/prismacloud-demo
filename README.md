@@ -6,6 +6,8 @@ Uses Github actions for CI and CD process.
   - Multiple form factors. (Container, Host, Serverless, Google Run)
   - Different phases of application lifecycle.
   - Multiple teams.
+  AND
+  You have a copy-paste coder like Sandeep in your team :)
 ## Installation:
  - Terraform templates are provided in IaC folder. These are for reference only. Please modify as per your requiremnts.
  - Yaml files for K8s deployment are provided in root folder
@@ -17,6 +19,21 @@ Uses Github actions for CI and CD process.
 3. The developer/devops will be notified of misconfigurations/vulnerabilites within IDE while coding.
 ![Check the vulnerabilities in IDE](checkov_plugin.png)
 > Example files for terraform,yaml,secrets can be found in fake_commits folder. Please use as per your requirement.
+### Review phase (Persona: Dev/Devops Leads/Managers)
+1. Integrate your Github repo with Primsa Cloud Code Security module.
+2. Push the code to your branch and raise pull request
+3. The reviewers will be notified of misconfigurations/vulnerabilites in review process.This makes reviewers aware of the security issues in addition to coding issues.
+4. Code-checkins are gated by security as PC scan becomes one of the checks during CI process
+![Failed check in the Github Console](review_failed_gh_console.png)
+![Prisma bot comment in Github review process](prisma-cloud-devsecops-bot.png)
+### Review phase (Persona: Security team)
+1. Security team can see the same failures in Prisma Cloud console.
+2. Security team can submit fixes from Prisma Cloud console which will open a new PR against your repo.
+![Check the vulnerabilities in PC Console](review_failed_pc_console.png)
+![Submit fix from the PC Console](submit_pr_from_pc.png)
+![Verify PR in the Github ](pr_opened_by_prisma_cloud.png)
+
+
 # Work in progress
 
 Needs the below secrets to be configured in your Github
