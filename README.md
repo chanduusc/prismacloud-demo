@@ -1,6 +1,21 @@
 Complete CNAPP demo using Prisma Cloud demonstrating Cloud Code Security, Cloud Workload Protection (Agent, Agentless, Web Application and API Security) , Cloud Infrastructure Entitlement Management, Cloud Data Security, Cloud Security Posture Management . Demonstrates how the platform adds value to different persona's starting from developers to executives.
+Uses Github actions for CI and CD process.
+## Intent:
+ Demo intent is to showcase Prisma Cloud Capabilities across
+  - Multiple clouds. (EKS,GKE,AKS)
+  - Multiple form factors. (Container, Host, Serverless, Google Run)
+  - Different phases of application lifecycle.
+  - Multiple teams.
+## Installation:
+ - Terraform templates are provided in IaC folder. These are for reference only. Please modify as per your requiremnts.
+ - Yaml files for K8s deployment are provided in root folder
+## Code Security:
+### Coding phase (Persona: Developer/Devops)
+1. Install Checkov plugin for VSCode (or IntelliJ) 
+2. Copy copy_to_req file to requirements.txt
+3.![Check the vulnerabilities in IDE] (checkov_plugin.png)
 
-<WIP --> more detailed documentation>
+# Work in progress
 
 Needs the below secrets to be configured in your Github
 ## Secrets 
