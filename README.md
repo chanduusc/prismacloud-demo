@@ -9,6 +9,7 @@ Uses Github actions for CI and CD process.
 ## Installation:
  - Terraform templates are provided in IaC folder. These are for reference only. Please modify as per your requiremnts.
  - Yaml files for K8s deployment are provided in root folder
+ - Github action files can be foind in .github folder and secrets configured can be found [here](https://github.com/chanduusc/prismacloud-demo#secrets)
 ## Code Security:
 ### Coding phase (Persona: Developer/Devops)
 1. Install Checkov plugin for VSCode (or IntelliJ) 
