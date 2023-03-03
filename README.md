@@ -13,7 +13,7 @@ Uses Github actions for CI and CD process.
 ### Coding phase (Persona: Developer/Devops)
 1. Install Checkov plugin for VSCode (or IntelliJ) 
 2. Copy copy_to_req file to requirements.txt
-3. ![Check the vulnerabilities in IDE] (checkov_plugin.png)
+![Check the vulnerabilities in IDE](checkov_plugin.png)
 
 # Work in progress
 
