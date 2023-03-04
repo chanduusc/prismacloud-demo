@@ -6,6 +6,7 @@ Uses Github actions for CI and CD process.
   - Multiple form factors. (Container, Host, Serverless, Google Run)
   - Different phases of application lifecycle.
   - Multiple teams.
+Also want to showcase how not following best practices at dev/devops level might have increased blast radius.
 AND
 You have a copy-paste coder like Sandeep in your team :)
 ## Installation:
@@ -34,8 +35,8 @@ You have a copy-paste coder like Sandeep in your team :)
 ![Submit fix from the PC Console](submit_pr_from_pc.png)
 ![Verify PR in the Github ](pr_opened_by_prisma_cloud.png)
 ![Outdated activities after fixing the issue ](outdated_requirements.png)
-
-
+__Please pay attention to docker file where apt is used against best practices__
+![APT warning ](apt-alert.png)
 # Work in progress
 
 Needs the below secrets to be configured in your Github
