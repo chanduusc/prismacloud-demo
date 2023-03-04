@@ -75,16 +75,13 @@ __**Vulnerability policies are used as example here. Can be used with compliance
 ![Deploy policy - PC](img/pc_deploy_policy.png "Deploy policy - PC")
 ![Deploy policy cont - PC](img/pc_deploy_policy_cont.png "Deploy policy cont - PC")
 ![Deploy audit - PC](img/pc_deploy_audits.png "Deploy audit - PC")
-__**Notice that the message set in Prisma Cloud console is visible in k8s audit logs**__
+>Notice that the message set in Prisma Cloud console is visible in k8s audit logs
 ## Runtime (Persona: Secops/Security team)
 1. Set runtime rules so that no malicious activities are happening during run time.
 2. Set WAAS rules to protect your applications from real time attacks.
-
-__**We have unrealistic example in wild.py but any imported module can be the bad actor **__
-
+>We have unrealistic example in wild.py but any imported module can be the bad actor
 3. Observe the event and alerts to keep track on production application health.
-
-__**Use tools like nuclei to simulate attacks --> nuclei -u http://<API Endpoint>/ -t nuclei-templates/f/**__
+>Use tools like nuclei to simulate attacks --> nuclei -u http://<API Endpoint>/ -t nuclei-templates/f/
 ![Runtime policy- PC](img/runtime_policy.png "Runtime policy - PC")
 ![Runtime audit - PC](img/runtime_audit_pc.png "Runtime audit - PC")
 ![WAAS policy - PC](img/waas_policy.png "WAAS policy - PC")
