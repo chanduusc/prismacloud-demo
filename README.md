@@ -6,10 +6,9 @@ Uses Github actions for CI and CD process.
   - Multiple form factors. (Container, Host, Serverless, Google Run)
   - Different phases of application lifecycle.
   - Multiple teams.
-
+  - Processes which are already part of organizational day to day activities.
 AND
-You have a copy-paste coder like Sandeep in your team :)
-
+You have a copy-paste coder like Sandeep in your team :)    
 Also want to showcase how not following best practices at dev/devops level might have increased blast radius.
 
 ## Installation:
@@ -23,14 +22,14 @@ Also want to showcase how not following best practices at dev/devops level might
 3. The developer/devops will be notified of misconfigurations/vulnerabilites within IDE while coding.
 ![Check the vulnerabilities in IDE](checkov_plugin.png)
 > Example files for terraform,yaml,secrets can be found in fake_commits folder. Please use as per your requirement.
-### Review phase (Persona: Dev/Devops Leads/Managers)
+### Review/CI phase (Persona: Dev/Devops Leads/Managers)
 1. Integrate your Github repo with Primsa Cloud Code Security module.
 2. Push the code to your branch and raise pull request
 3. The reviewers will be notified of misconfigurations/vulnerabilites in review process.This makes reviewers aware of the security issues in addition to coding issues.
 4. Code-checkins are gated by security as PC scan becomes one of the checks during CI process
 ![Failed check in the Github Console](review_failed_gh_console.png)
 ![Prisma bot comment in Github review process](prisma-cloud-devsecops-bot.png)
-### Review phase (Persona: Security team)
+### Review/CI phase (Persona: Security team)
 1. Security team can see the same failures in Prisma Cloud console.
 2. Security team can submit fixes from Prisma Cloud console which will open a new PR against your repo.
 3. Prisma bot will mark the comments outdated once fixed.
@@ -41,6 +40,14 @@ Also want to showcase how not following best practices at dev/devops level might
 
 __**Please pay attention to docker file where apt is used against best practices**__
 ![APT warning ](apt-alert.png)
+## Cloud Workload Protection:
+### CD phase (Persona: Developer/Devops)
+1. Github actions trigger build and deploy jobs in EKS,GKE and AKS.
+2. Prisma Cloud image scan is inserted as part of github actions.
+3. Policies for vulnerabilites (or compliance) can be set from Prisma Cloud.
+4. Prisma Cloud will scan the image and fail the CD job hence the non-approved images are not pushed to registries.
+### CD phase (Persona: Security team)
+1. Sets the polices related to images being build on day to day basis. 
 # Work in progress
 
 Needs the below secrets to be configured in your Github
