@@ -105,7 +105,15 @@ __**Vulnerability policies are used as example here. Can be used with compliance
 1. The script wild.py copies malware and sensitive files to S3 bucket (and azureblob) which are public.
 2. Again developers aren't educated about security and this is consequence of lack of security awareness.
 ![Data alerts list - PC](img/pc_data_sec_alerts.png "Data alerts list - PC")
-# Work in progress
-
+## Cloud Security Posture Management:
+### Post Deployment (Production Engineering / Secops or Security team and compliance teams)
+1. Prisma Cloud ships with lot of out of box policies which provides visibility (or protection) across modules.
+2. Generate reports for compliance, business unit and cloud security assesment on regular basis.
+3. Review your compliance and asset trend to check how your organization is doing against time.
+4. Setup alerts to be emailed to concerned people in your organization and audit them on regular basis.
+5. Make sure you integrate alerts with change management and/or incident reporting tools to track remidiation. [Integrations link] (https://docs.paloaltonetworks.com/prisma/prisma-cloud/prisma-cloud-admin/configure-external-integrations-on-prisma-cloud/prisma-cloud-integrations)
+![Compliance Overview- PC](img/node_asset_pc.png "Compliance Overview- PC")
+![Reports - PC](img/cspm_reports.png "Report - PC")
+![Asset Inventory - PC](img/asset_inventory.png "Asset Inventory - PC")
 
 
