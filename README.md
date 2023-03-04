@@ -71,7 +71,7 @@ __**Vulnerability policies are used as example here. Can be used with compliance
 2. A message can be set so deployment team can know the reason/next steps.
 3. Deployment failures are logged in PC Events tab.
 ![Deploy policy - PC](img/pc_deploy_policy.png "Deploy policy - PC")
-![Deploy policy cont - PC](img/pc_deploy_policy_conts.png "Deploy policy cont - PC")
+![Deploy policy cont - PC](img/pc_deploy_policy_cont.png "Deploy policy cont - PC")
 ![Deploy audit - PC](img/pc_deploy_audits.png "Deploy audit - PC")
 # Work in progress
 
