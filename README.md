@@ -29,7 +29,7 @@ Also want to showcase how not following best practices at dev/devops level might
 4. Code-checkins are gated by security as PC scan becomes one of the checks during CI process
 ![Failed check in the Github Console](img/review_failed_gh_console.png "Failed check in the Github Console")
 ![Prisma bot comment in Github review process](img/prisma-cloud-devsecops-bot.png "Prisma bot comment in Github review process")
-### Review/CI phase (Persona: Security Team)
+### Review/CI phase (Persona: Secops/Security Team)
 1. Security team can see the same failures in Prisma Cloud console.
 2. Security team can submit fixes from Prisma Cloud console which will open a new PR against your repo.
 3. Prisma bot will mark the comments outdated once fixed.
@@ -48,25 +48,25 @@ __**Vulnerability policies are used as example here. Can be used with compliance
 3. Policies for vulnerabilites (or compliance) can be set from Prisma Cloud.
 4. Prisma Cloud will scan the image and fail the CD job hence the non-approved images are not pushed to registries.
 ![Failed build in CD process](img/gh_failed_build.png "Failed build in CD process")
-### CD phase (Persona: Security Team)
+### CD phase (Persona: Secops/Security Team)
 1. Sets the polices related to images being built on day to day basis within the tools/process which are already part of organization.
 2. Can view the real time status of builds in Prisma Cloud console.
 3. Can debug/know which layer of build introduced the vulnerabilities.
 ![PC policy for vulnerability severity](img/pc-vuln-policy.png "PC policy for vulnerability severity")
 ![PC status showing where vulnerabilities got introduced](img/pc_failed_build.png "PC status showing where vulnerabilities got introduced")
 ![PC showing CD status](img/pc_cd_status.png "PC showing CD status")
-### Image storage in registry (Persona: Security Team)
+### Image storage in registry (Persona: Secops/Security Team)
 1. Image scanning is important after image build and push to registry
 2. Vulnerabilites present in the image might be discovered after the image is built.
 3. The same applies to deployed images.
 ![Image scan - registry](img/registry_image_scan.png "Image scan - registry")
 ![Image scan - deployed](img/deployed_image_scan.png "Image scan - deployed")
-### Deploy phase (Persona: Devops)
+### Deploy phase (Persona: Devops and Production Engineering)
 1. Devops team can see the vulnerable images not getting deployed.
 2. The reason of failure (policy) can be viewed in audit logs
 ![Deploy fail - audit logs](img/kubectl_events.png "Deploy fail - audit logs")
 ![Deploy fail - pods](img/kubectl_pods.png "Deploy fail - pods")
-### Deploy phase (Persona: Security Team)
+### Deploy phase (Persona: Secops/Security Team)
 1. Security team can set policies around deployment. Advanced features/exceptions can also be configured.
 2. A message can be set so deployment team can know the reason/next steps.
 3. Deployment failures are logged in PC Events tab.
@@ -74,7 +74,21 @@ __**Vulnerability policies are used as example here. Can be used with compliance
 ![Deploy policy cont - PC](img/pc_deploy_policy_cont.png "Deploy policy cont - PC")
 ![Deploy audit - PC](img/pc_deploy_audits.png "Deploy audit - PC")
 __**Notice that the message set in Prisma Cloud console is visible in k8s audit logs**__
-
+## Runtime (Persona: Secops/Security team)
+1. Set runtime rules so that no malicious activities are happening during run time.
+2. Set WAAS rules to protect your applications from real time attacks.
+__**We have unrealistic example in wild.py but any imported module can be the bad actor **__
+3. Observe the event and alerts to keep track on production application health.
+__**Use tools like nuclei to simulate attacks --> nuclei -u http://<API Endpoint>/ -t nuclei-templates/f/**__
+![Runtime policy- PC](img/runtime_policy.png "Runtime policy - PC")
+![Runtime audit - PC](img/runtime_audit_pc.png "Runtime audit - PC")
+![WAAS policy - PC](img/waas_policy.png "WAAS policy - PC")
+![WAAS audit - PC](img/waas_audit_log.png "WAAS audit - PC")
+![WAAS attacks - PC](img/waas_attacks.png "WAAS attacks - PC")
+## Runtime (Persona: Production Engineering)
+1. Work closely with dev and security teams based on the production runtime results.
+2. Provide continous feedback about app/api deployment pattern to security teams.
+![Runtime pod error in k8s - PC](img/runtime_pod_k8s.png "Runtime pod error in k8s")
 # Work in progress
 
 
