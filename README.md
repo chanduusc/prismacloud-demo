@@ -62,7 +62,10 @@ __**Vulnerability policies are used as example here. Can be used with compliance
 ![Image scan - registry](img/registry_image_scan.png "Image scan - registry")
 ![Image scan - deployed](img/deployed_image_scan.png "Image scan - deployed")
 ### Deploy Security (Persona: Devops)
-1. 
+1. Devops team can see the vulnerable images not getting deployed.
+2. The reason of failure (policy) can be viewed in audit logs
+![Deploy fail - audit logs](img/kubectl_events.png "Deploy fail - audit logs")
+![Deploy fail - pods](img/kubectl_pods.png "Deploy fail - pods")
 ### Deploy Security (Persona: Security Team)
 # Work in progress
 
