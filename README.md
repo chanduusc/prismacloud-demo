@@ -7,8 +7,8 @@ Uses Github actions for CI and CD process.
   - Different phases of application lifecycle.
   - Multiple teams.
   - Processes which are already part of organizational day to day activities.
-AND
-You have a copy-paste coder like Sandeep in your team :)    
+
+AND you have a copy-paste coder like Sandeep in your team :)    
 Also want to showcase how not following best practices at dev/devops level might have increased blast radius.
 
 ## Installation:
