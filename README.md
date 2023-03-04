@@ -41,13 +41,21 @@ Also want to showcase how not following best practices at dev/devops level might
 __**Please pay attention to docker file where apt is used against best practices**__
 ![APT warning ](apt-alert.png)
 ## Cloud Workload Protection:
+__**Vulnerability policies are used as example here. Can be used with compliance policies too**__
 ### CD phase (Persona: Developer/Devops)
 1. Github actions trigger build and deploy jobs in EKS,GKE and AKS.
 2. Prisma Cloud image scan is inserted as part of github actions.
 3. Policies for vulnerabilites (or compliance) can be set from Prisma Cloud.
 4. Prisma Cloud will scan the image and fail the CD job hence the non-approved images are not pushed to registries.
+![Failed build in CD process](gh_failed_build.png)
 ### CD phase (Persona: Security team)
-1. Sets the polices related to images being build on day to day basis. 
+1. Sets the polices related to images being built on day to day basis within the tools/process which are already part of organization.
+2. Can view the real time status of builds in Prisma Cloud console.
+3. Can debug/know which layer of build introduced the vulnerabilities.
+![PC policy for vulnerability severity](pc-vuln-policy.png)
+![PC status showing where vulnerabilities got introduced](pc_failed_build.png)
+![PC showing CD status](pc_cd_status.png)
+
 # Work in progress
 
 Needs the below secrets to be configured in your Github
