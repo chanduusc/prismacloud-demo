@@ -95,12 +95,16 @@ __**Vulnerability policies are used as example here. Can be used with compliance
 ## Cloud Infrastructure Entitlement Management:
 ### Post Deployment (Production Engineering / Secops or Security team)
 1. CIEM module detects that one of the nodes have escalated permissions.
-2. The nodes has permission to perform any action(*) on s3 service.
+2. The nodes has permission to perform any action(*) on s3 service. Hence those capabilities are inherited by pods.
 ![Get host info - kubectl](img/kubectl_get_instance_id.png "Get host info - kubectl")
 ![Node asset view - PC](img/node_asset_pc.png "Node asset view - PC")
 ![Node alerts list - PC](img/alerts_list.png "Node alerts list - PC")
 ![Node graph view - PC](img/pc_graph.png "Node graph view - PC")
-
+## Cloud Data Security:
+### Post Deployment (Production Engineering / Secops or Security team)
+1. The script wild.py copies malware and sensitive files to S3 bucket (and azureblob) which are public.
+2. Again developers aren't educated about security and this is consequence of lack of security awareness.
+![Data alerts list - PC](img/pc_data_sec_alerts.png "Data alerts list - PC")
 # Work in progress
 
 
