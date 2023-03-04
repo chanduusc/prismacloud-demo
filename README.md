@@ -76,21 +76,31 @@ __**Vulnerability policies are used as example here. Can be used with compliance
 ![Deploy policy cont - PC](img/pc_deploy_policy_cont.png "Deploy policy cont - PC")
 ![Deploy audit - PC](img/pc_deploy_audits.png "Deploy audit - PC")
 >Notice that the message set in Prisma Cloud console is visible in k8s audit logs
-## Runtime (Persona: Secops/Security team)
+### Runtime (Persona: Secops/Security team)
 1. Set runtime rules so that no malicious activities are happening during run time.
 2. Set WAAS rules to protect your applications from real time attacks.
->We have unrealistic example in wild.py but any imported module can be the bad actor
+>We have unrealistic example in wild.py but any imported module can be the bad actor. Requirements.txt scan of code security should have caught it realistically.
 3. Observe the event and alerts to keep track on production application health.
 >Use tools like nuclei to simulate attacks --> nuclei -u http://<API Endpoint>/ -t nuclei-templates/f/
-![Runtime policy- PC](img/runtime_policy.png "Runtime policy - PC")
+
+![Runtime policy - PC](img/runtime_policy.png "Runtime policy - PC")
 ![Runtime audit - PC](img/runtime_audit_pc.png "Runtime audit - PC")
 ![WAAS policy - PC](img/waas_policy.png "WAAS policy - PC")
 ![WAAS audit - PC](img/waas_audit_log.png "WAAS audit - PC")
 ![WAAS attacks - PC](img/waas_attacks.png "WAAS attacks - PC")
-## Runtime (Persona: Production Engineering)
+### Runtime (Persona: Production Engineering)
 1. Work closely with dev and security teams based on the production runtime results.
 2. Provide continous feedback about app/api deployment pattern to security teams.
 ![Runtime pod error in k8s - PC](img/runtime_pod_k8s.png "Runtime pod error in k8s")
+## Cloud Infrastructure Entitlement Management:
+### Post Deployment (Production Engineering / Secops or Security team)
+1. CIEM module detects that one of the nodes have escalated permissions.
+2. The nodes has permission to perform any action(*) on s3 service.
+![Get host info - kubectl](img/kubectl_get_instance_id.png "Get host info - kubectl")
+![Node asset view - PC](img/node_asset_pc.png "Node asset view - PC")
+![Node alerts list - PC](img/alerts_list.png "Node alerts list - PC")
+![Node graph view - PC](img/pc_graph.png "Node graph view - PC")
+
 # Work in progress
 
 
