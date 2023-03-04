@@ -73,6 +73,7 @@ __**Vulnerability policies are used as example here. Can be used with compliance
 ![Deploy policy - PC](img/pc_deploy_policy.png "Deploy policy - PC")
 ![Deploy policy cont - PC](img/pc_deploy_policy_cont.png "Deploy policy cont - PC")
 ![Deploy audit - PC](img/pc_deploy_audits.png "Deploy audit - PC")
+__**Notice that the message set in Prisma Cloud console is visible in k8s audit logs**__
 # Work in progress
 
 Needs the below secrets to be configured in your Github
