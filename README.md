@@ -14,7 +14,7 @@ Also want to showcase how not following best practices at dev/devops level might
 ## Installation:
  - Terraform templates are provided in IaC folder. These are for reference only. Please modify as per your requirements.
  - Yaml files for K8s deployment are provided in root folder
- - Github action files can be found in .github folder and secrets configured can be found [here](https://github.com/chanduusc/prismacloud-demo#secrets)
+ - Github action files can be found in .github folder and secrets configured can be found [here](https://github.com/chanduusc/prismacloud-demo/IaC/README.md#secrets)
 ## Code Security:
 ### Coding phase (Persona: Developer/Devops)
 1. Install Checkov plugin for VSCode (or IntelliJ) 
