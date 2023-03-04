@@ -12,7 +12,7 @@ AND you have a copy-paste coder like Sandeep in your team :)
 Also want to showcase how not following best practices at dev/devops level might have increased blast radius.
 
 ## Installation:
- - Terraform templates are provided in IaC folder. These are for reference only. Please modify as per your requiremnts.
+ - Terraform templates are provided in IaC folder. These are for reference only. Please modify as per your requirements.
  - Yaml files for K8s deployment are provided in root folder
  - Github action files can be found in .github folder and secrets configured can be found [here](https://github.com/chanduusc/prismacloud-demo#secrets)
 ## Code Security:
@@ -29,7 +29,7 @@ Also want to showcase how not following best practices at dev/devops level might
 4. Code-checkins are gated by security as PC scan becomes one of the checks during CI process
 ![Failed check in the Github Console](review_failed_gh_console.png)
 ![Prisma bot comment in Github review process](prisma-cloud-devsecops-bot.png)
-### Review/CI phase (Persona: Security team)
+### Review/CI phase (Persona: Security Team)
 1. Security team can see the same failures in Prisma Cloud console.
 2. Security team can submit fixes from Prisma Cloud console which will open a new PR against your repo.
 3. Prisma bot will mark the comments outdated once fixed.
@@ -48,14 +48,19 @@ __**Vulnerability policies are used as example here. Can be used with compliance
 3. Policies for vulnerabilites (or compliance) can be set from Prisma Cloud.
 4. Prisma Cloud will scan the image and fail the CD job hence the non-approved images are not pushed to registries.
 ![Failed build in CD process](gh_failed_build.png)
-### CD phase (Persona: Security team)
+### CD phase (Persona: Security Team)
 1. Sets the polices related to images being built on day to day basis within the tools/process which are already part of organization.
 2. Can view the real time status of builds in Prisma Cloud console.
 3. Can debug/know which layer of build introduced the vulnerabilities.
 ![PC policy for vulnerability severity](pc-vuln-policy.png)
 ![PC status showing where vulnerabilities got introduced](pc_failed_build.png)
 ![PC showing CD status](pc_cd_status.png)
-
+### Image storage in registry (Persona: Devsecops/Production Engineering/Security Team)
+1. Image scanning is important after image build and push to registry
+2. Vulnerabilites present in the image might be discovered after the image is built.
+3. The same applies to deployed images.
+![Image scan - registry](registry_image_scan.png)
+![Image scan - deployed](deployed_image_scan.png)
 # Work in progress
 
 Needs the below secrets to be configured in your Github
