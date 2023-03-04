@@ -67,6 +67,12 @@ __**Vulnerability policies are used as example here. Can be used with compliance
 ![Deploy fail - audit logs](img/kubectl_events.png "Deploy fail - audit logs")
 ![Deploy fail - pods](img/kubectl_pods.png "Deploy fail - pods")
 ### Deploy Security (Persona: Security Team)
+1. Security team can set policies around deployment. Advanced features/exceptions can also be configured.
+2. A message can be set so deployment team can know the reason/next steps.
+3. Deployment failures are logged in PC Events tab.
+![Deploy policy - PC](img/pc_deploy_policy.png "Deploy policy - PC")
+![Deploy policy cont - PC](img/pc_deploy_policy_conts.png "Deploy policy cont - PC")
+![Deploy audit - PC](img/pc_deploy_audits.png "Deploy audit - PC")
 # Work in progress
 
 Needs the below secrets to be configured in your Github
