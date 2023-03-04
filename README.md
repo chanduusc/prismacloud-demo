@@ -61,12 +61,12 @@ __**Vulnerability policies are used as example here. Can be used with compliance
 3. The same applies to deployed images.
 ![Image scan - registry](img/registry_image_scan.png "Image scan - registry")
 ![Image scan - deployed](img/deployed_image_scan.png "Image scan - deployed")
-### Deploy Security (Persona: Devops)
+### Deploy phase (Persona: Devops)
 1. Devops team can see the vulnerable images not getting deployed.
 2. The reason of failure (policy) can be viewed in audit logs
 ![Deploy fail - audit logs](img/kubectl_events.png "Deploy fail - audit logs")
 ![Deploy fail - pods](img/kubectl_pods.png "Deploy fail - pods")
-### Deploy Security (Persona: Security Team)
+### Deploy phase (Persona: Security Team)
 1. Security team can set policies around deployment. Advanced features/exceptions can also be configured.
 2. A message can be set so deployment team can know the reason/next steps.
 3. Deployment failures are logged in PC Events tab.
@@ -74,6 +74,7 @@ __**Vulnerability policies are used as example here. Can be used with compliance
 ![Deploy policy cont - PC](img/pc_deploy_policy_cont.png "Deploy policy cont - PC")
 ![Deploy audit - PC](img/pc_deploy_audits.png "Deploy audit - PC")
 __**Notice that the message set in Prisma Cloud console is visible in k8s audit logs**__
+
 # Work in progress
 
 
