@@ -6,12 +6,12 @@ Uses Github actions for CI and CD process.
   - Multiple form factors. (Container, Host, Serverless, Google Run)
   - Different phases of application lifecycle.
   - Multiple teams.
-  AND
-  You have a copy-paste coder like Sandeep in your team :)
+AND
+You have a copy-paste coder like Sandeep in your team :)
 ## Installation:
  - Terraform templates are provided in IaC folder. These are for reference only. Please modify as per your requiremnts.
  - Yaml files for K8s deployment are provided in root folder
- - Github action files can be foind in .github folder and secrets configured can be found [here](https://github.com/chanduusc/prismacloud-demo#secrets)
+ - Github action files can be found in .github folder and secrets configured can be found [here](https://github.com/chanduusc/prismacloud-demo#secrets)
 ## Code Security:
 ### Coding phase (Persona: Developer/Devops)
 1. Install Checkov plugin for VSCode (or IntelliJ) 
