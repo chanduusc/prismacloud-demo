@@ -20,7 +20,7 @@ Also want to showcase how not following best practices at dev/devops level might
 1. Install Checkov plugin for VSCode (or IntelliJ) 
 2. Copy copy_to_req file to requirements.txt
 3. The developer/devops will be notified of misconfigurations/vulnerabilites within IDE while coding.
-![Check the vulnerabilities in IDE](checkov_plugin.png)
+![Check the vulnerabilities in IDE](checkov_plugin.png "Check the vulnerabilities in IDE")
 > Example files for terraform,yaml,secrets can be found in fake_commits folder. Please use as per your requirement.
 ### Review/CI phase (Persona: Dev/Devops Leads/Managers)
 1. Integrate your Github repo with Primsa Cloud Code Security module.
