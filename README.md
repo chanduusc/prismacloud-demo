@@ -79,6 +79,7 @@ __**Notice that the message set in Prisma Cloud console is visible in k8s audit 
 2. Set WAAS rules to protect your applications from real time attacks.
 
 __**We have unrealistic example in wild.py but any imported module can be the bad actor **__
+
 3. Observe the event and alerts to keep track on production application health.
 
 __**Use tools like nuclei to simulate attacks --> nuclei -u http://<API Endpoint>/ -t nuclei-templates/f/**__
