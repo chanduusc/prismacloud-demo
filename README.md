@@ -102,6 +102,7 @@ __**Vulnerability policies are used as example here. Can be used with compliance
 ![Node graph view - PC](img/pc_graph.png "Node graph view - PC")
 ## Cloud Data Security:
 ### Post Deployment (Production Engineering / Secops or Security team)
+> This is th only place where something is hardcoded in this entire project (Azure blobname and AWS s3 bucket needs to be changed)
 1. The script wild.py copies malware and sensitive files to S3 bucket (and azureblob) which are public.
 2. Again developers aren't educated about security and this is consequence of lack of security awareness.
 ![Data alerts list - PC](img/pc_data_sec_alerts.png "Data alerts list - PC")
