@@ -29,8 +29,6 @@ Also want to showcase how not following best practices at dev/devops level might
 2. Push the code to your branch and raise pull request
 3. The reviewers will be notified of misconfigurations/vulnerabilites in review process.This makes reviewers aware of the security issues in addition to coding issues.
 4. Code-checkins are gated by security as PC scan becomes one of the checks during CI process
-> Remember Code security warned you about APT :)
-
 ![Failed check in the Github Console](img/review_failed_gh_console.png "Failed check in the Github Console")
 ![Prisma bot comment in Github review process](img/prisma-cloud-devsecops-bot.png "Prisma bot comment in Github review process")
 ### Review/CI phase (Persona: Secops/Security Team)
@@ -51,6 +49,8 @@ __**Vulnerability policies are used as example here. Can be used with compliance
 2. Prisma Cloud image scan is inserted as part of github actions.
 3. Policies for vulnerabilites (or compliance) can be set from Prisma Cloud.
 4. Prisma Cloud will scan the image and fail the CD job hence the non-approved images are not pushed to registries.
+> Remember Code security warned you about APT :)
+
 ![Failed build in CD process](img/gh_failed_build.png "Failed build in CD process")
 ### CD phase (Persona: Secops/Security Team)
 1. Sets the polices related to images being built on day to day basis within the tools/process which are already part of organization.
