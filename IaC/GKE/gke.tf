@@ -188,6 +188,9 @@ resource "google_container_cluster" "cluster" {
   binary_authorization {
     evaluation_mode = "PROJECT_SINGLETON_POLICY_ENFORCE"
   }
+  pod_security_policy_config {
+    enabled = true
+  }
 }
 
 #resource "google_container_node_pool" "general_purpose" {

@@ -60,6 +60,12 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
     tenant_id          = data.azurerm_subscription.configured.tenant_id
     azure_rbac_enabled = true
   }
+  addon_profile {
+    oms_agent {
+      enabled = true
+    }
+  }
+  private_cluster_enabled = true
 }
 
 resource "azurerm_role_assignment" "admin_aks_rbac" {
