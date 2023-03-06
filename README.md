@@ -49,6 +49,8 @@ __**Vulnerability policies are used as example here. Can be used with compliance
 2. Prisma Cloud image scan is inserted as part of github actions.
 3. Policies for vulnerabilites (or compliance) can be set from Prisma Cloud.
 4. Prisma Cloud will scan the image and fail the CD job hence the non-approved images are not pushed to registries.
+> Remember Code security warned you about APT :)
+
 ![Failed build in CD process](img/gh_failed_build.png "Failed build in CD process")
 ### CD phase (Persona: Secops/Security Team)
 1. Sets the polices related to images being built on day to day basis within the tools/process which are already part of organization.
