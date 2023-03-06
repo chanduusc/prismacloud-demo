@@ -30,6 +30,7 @@ Also want to showcase how not following best practices at dev/devops level might
 3. The reviewers will be notified of misconfigurations/vulnerabilites in review process.This makes reviewers aware of the security issues in addition to coding issues.
 4. Code-checkins are gated by security as PC scan becomes one of the checks during CI process
 > Remember Code security warned you about APT :)
+
 ![Failed check in the Github Console](img/review_failed_gh_console.png "Failed check in the Github Console")
 ![Prisma bot comment in Github review process](img/prisma-cloud-devsecops-bot.png "Prisma bot comment in Github review process")
 ### Review/CI phase (Persona: Secops/Security Team)
