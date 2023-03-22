@@ -23,7 +23,7 @@ class MyServer(BaseHTTPRequestHandler):
         self.wfile.write(bytes("<p>Path: %s</p>" % self.path, "utf-8"))
         self.wfile.write(bytes("<p>Requestor: %s</p>" % self.request.getpeername()[0], "utf-8"))
         self.wfile.write(bytes("<body>", "utf-8"))
-        self.wfile.write(bytes("<p> GCP-Cloud-Run Summit Demo</p>", "utf-8"))
+        self.wfile.write(bytes("<p> GCP-Cloud-Run Summit Demo - Real Demo</p>", "utf-8"))
         self.wfile.write(bytes("</body></html>", "utf-8"))
     def do_OPTIONS(self):
         self.send_response(200, "ok")
