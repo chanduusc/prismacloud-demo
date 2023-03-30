@@ -17,3 +17,10 @@ resource "github_actions_secret" "ecr_repo_name" {
   secret_name     = "REPO_NAME"
   plaintext_value = var.ecr_repo_name
 }
+
+resource "github_actions_secret" "s3_bucket_name" {
+  repository  = var.gh_repo
+  secret_name = "S3_BUCKET_NAME"
+  # checkov:skip=CKV_SECRET_6: not a secret
+  plaintext_value = var.s3_bucket_name
+}
