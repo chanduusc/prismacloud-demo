@@ -76,6 +76,7 @@ jobs:
       run: |-
         kustomize create --resources eks-deployment.yml
         kustomize edit set image "demo-image-name=${{ steps.login-ecr.outputs.registry }}/${{ secrets.REPO_NAME }}:${{ github.sha }}"
+        kustomize edit add patch --patch '[{"op":"add","path":"/spec/template/spec/containers/0/env","value":[{"name":"S3_BUCKET_NAME","value":"'"${{secrets.S3_BUCKET_NAME}}"'"}]}]' --group apps
         cat kustomization.yaml
         kustomize build . | kubectl apply -f -
         kubectl get pods -o wide
