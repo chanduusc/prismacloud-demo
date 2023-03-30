@@ -50,6 +50,12 @@ variable "create_acr" {
   default     = false
 }
 
+variable "create_storage" {
+  type        = bool
+  description = "Create Storage account instead of using names from vars."
+  default     = false
+}
+
 variable "acr_tags" {
   type    = map(any)
   default = null
