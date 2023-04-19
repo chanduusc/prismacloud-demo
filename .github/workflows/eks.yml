@@ -43,7 +43,7 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: ${{ secrets.REPO_NAME }}
         IMAGE_TAG: ${{ github.sha }}
-      uses: PaloAltoNetworks/prisma-cloud-scan@v1
+      uses: PaloAltoNetworks/prisma-cloud-scan@v1.4.0
       with:
         pcc_console_url: ${{ secrets.PCC_CONSOLE_URL }}
         pcc_user: ${{ secrets.PCC_USER }}
