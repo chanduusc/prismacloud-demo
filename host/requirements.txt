@@ -1,9 +1,9 @@
 appdirs==1.4.4
 atomicwrites==1.4.0
 attrs==20.3.0
-certifi==2020.12.5
+certifi==2022.12.07
 chardet==4.0.0
-click==7.1.2
+click==8.0.0
 colorama==0.4.4
 distlib==0.3.1
 dominate==2.6.0
@@ -25,7 +25,7 @@ requests==2.25.1
 six==1.15.0
 supervisor==4.2.2
 toml==0.10.2
-urllib3==1.26.4
+urllib3==1.26.5
 virtualenv==20.4.3
 visitor==0.1.3
-Werkzeug==1.0.1
+Werkzeug==2.2.3
