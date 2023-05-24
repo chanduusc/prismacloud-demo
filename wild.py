@@ -17,7 +17,8 @@ unique_hipaa_filename =  str(uuid.uuid4().hex)+ '-' + str(datetime.datetime.now(
 cloud_provider = platform.uname()[2]
 if 'amzn' in cloud_provider:
     s3 = boto3.resource('s3')
-    bucketname = os.environ["S3_BUCKET_NAME"] if "S3_BUCKET_NAME" in os.environ else "cnappdemo"
+    print(os.environ)
+    bucketname = os.environ.get("S3_BUCKET_NAME") if "S3_BUCKET_NAME" in os.environ else "cnappdemo"
     s3.meta.client.upload_file('/plz_del/FritzFrog/001eb377f0452060012124cb214f658754c7488ccb82e23ec56b2f45a636c859', bucketname, unique_malware_filename)
     s3.meta.client.upload_file('/plz_del/FritzFrog/10-MB-Test.docx', bucketname, unique_sensitive_filename, ExtraArgs={'ACL':'public-read'})
     s3.meta.client.upload_file('/plz_del/FritzFrog/clia-lab-search-results-02.22.2023-19_43_13.csv', bucketname, unique_hipaa_filename, ExtraArgs={'ACL':'public-read'})
