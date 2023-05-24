@@ -65,3 +65,7 @@ variable "pcc_console" {
   type    = string
   default = null
 }
+
+variable "s3_bucket_name" {
+  type = string
+}
