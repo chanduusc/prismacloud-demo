@@ -1,6 +1,6 @@
 resource "aws_s3_bucket" "s3b" {
-	# checkov:skip=CKV2_AWS_6: Public access blocks not needed for a demo bucket
-	# checkov:skip=CKV_AWS_145: KMS not needed for a demo bucket
+  # checkov:skip=CKV2_AWS_6: Public access blocks not needed for a demo bucket
+  # checkov:skip=CKV_AWS_145: KMS not needed for a demo bucket
   # checkov:skip=CKV_AWS_18: Access logging not deeded for a demo bucket
   # checkov:skip=CKV_AWS_144: Region cross-replication not needed for a demo bucket
   # checkov:skip=CKV_AWS_21: Versioning not needed for a demo bucket
@@ -8,8 +8,8 @@ resource "aws_s3_bucket" "s3b" {
 }
 
 resource "aws_s3_bucket_public_access_block" "pab" {
-	# checkov:skip=CKV_AWS_55: Public access ACL needed for demo purposes.
-	# checkov:skip=CKV_AWS_54: Public access ACL needed for demo purposes.
+  # checkov:skip=CKV_AWS_55: Public access ACL needed for demo purposes.
+  # checkov:skip=CKV_AWS_54: Public access ACL needed for demo purposes.
   # checkov:skip=CKV_AWS_53: Public access ACL needed for demo purposes.
   bucket = aws_s3_bucket.s3b.bucket
 
@@ -42,5 +42,13 @@ data "aws_iam_policy_document" "allow_upload" {
       aws_s3_bucket.s3b.arn,
       "${aws_s3_bucket.s3b.arn}/*"
     ]
+  }
+}
+
+resource "aws_s3_bucket_ownership_controls" "object_writer" {
+  bucket = aws_s3_bucket.s3b.bucket
+
+  rule {
+    object_ownership = "ObjectWriter"
   }
 }
