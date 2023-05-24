@@ -19,6 +19,9 @@ spec:
       containers:
         - name: python-server-app
           image: demo-image-name
+          env:
+          - name: S3_BUCKET
+            value: "cnappdemo"
           ports:
             - containerPort: 8080
               protocol: TCP
