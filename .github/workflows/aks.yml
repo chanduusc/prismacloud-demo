@@ -63,7 +63,11 @@ jobs:
           run: |
             kustomize create --resources aks-deployment.yml,aks-serviceaccount.yaml
             kustomize edit add patch --kind Deployment --patch '[{"op":"add","path":"/spec/template/spec/containers/0/env","value":[{"name":"BLOB_ENDPOINT","value":"'"${{secrets.BLOB_ENDPOINT}}"'"},{"name":"CONTAINER_NAME","value":"'"${{secrets.CONTAINER_NAME}}"'"}]}]' --group apps
-            kustomize edit add patch --kind ServiceAccount --patch '[{"op":"add","path":"/metadata/annotations","value":{"azure.workload.identity/client-id":"'"${{secrets.AWI_CLIENTID}}"'"}}]'
+            if [ -n "${{ secrets.AWI_CLIENTID }}" ]
+            then
+              kustomize edit add patch --kind ServiceAccount --patch '[{"op":"add","path":"/metadata/annotations","value":{"azure.workload.identity/client-id":"'"${{secrets.AWI_CLIENTID}}"'"}}]'
+              kustomize edit add patch --kind Deployment --patch '[{"op":"add","path":"/spec/template/spec/serviceAccountName","value":"workload-identity-sa"}]' --group apps
+            fi
             kustomize build . -o aks-deployment-kustomized.yml
         - name: Deploy to AKS
           id: deploy-aks
