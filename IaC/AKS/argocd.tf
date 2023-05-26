@@ -1,3 +1,5 @@
+data "azurerm_subscription" "current" {}
+
 resource "null_resource" "run_provisioner" {
   count = var.run_provisioner ? 1 : 0
   provisioner "local-exec" {
@@ -5,6 +7,7 @@ resource "null_resource" "run_provisioner" {
       CSP                      = "AZURE",
       AZURE_AKS_NAME           = azurerm_kubernetes_cluster.aks_cluster.name,
       AZURE_RG                 = azurerm_kubernetes_cluster.aks_cluster.resource_group_name,
+      AZURE_SUB_ID             = data.azurerm_subscription.current.subscription_id,
       ARGOCD_GITOPS_REPOSITORY = var.argocd_git_repo,
       GITHUB_TOKEN             = var.gh_token,
       PCC_USER                 = var.pcc_user,
