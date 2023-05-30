@@ -69,3 +69,8 @@ variable "pcc_console" {
 variable "s3_bucket_name" {
   type = string
 }
+
+variable "cluster_version" {
+  type    = string
+  default = "1.23"
+}
