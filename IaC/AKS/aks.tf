@@ -24,6 +24,7 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
   dns_prefix                = "${var.prefix}-${random_string.password.result}"
   oidc_issuer_enabled       = true
   workload_identity_enabled = true
+  automatic_channel_upgrade = "stable"
   depends_on = [
     azurerm_resource_provider_registration.ewip
   ]
@@ -86,7 +87,7 @@ resource "azurerm_federated_identity_credential" "cnappdemo" {
   issuer              = azurerm_kubernetes_cluster.aks_cluster.oidc_issuer_url
   parent_id           = azurerm_user_assigned_identity.cnappdemo.id
   audience            = ["api://AzureADTokenExchange"]
-  subject = "system:serviceaccount:default:workload-identity-sa"
+  subject             = "system:serviceaccount:default:workload-identity-sa"
 }
 
 resource "azurerm_role_assignment" "admin_aks_rbac" {

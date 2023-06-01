@@ -13,7 +13,7 @@ resource "azurerm_storage_account" "storage_acc" {
 }
 
 resource "azurerm_storage_container" "storage_container" {
-	# checkov:skip=CKV_AZURE_34: Public access needed for demo purposes
+  # checkov:skip=CKV_AZURE_34: Public access needed for demo purposes
   # checkov:skip=CKV2_AZURE_21: No logging needed for demo bucket
   count                 = var.create_storage ? 1 : 0
   name                  = "${random_string.password.result}cnappdemo"
