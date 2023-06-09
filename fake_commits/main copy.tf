@@ -28,9 +28,29 @@ resource "aws_s3_bucket" "fc19torg" {
 }
 
 
+resource "aws_s3_bucket_versioning" "fc19torg" {
+  bucket = aws_s3_bucket.fc19torg.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+
+
 resource "aws_s3_bucket" "fc19torg_log_bucket" {
   bucket = "fc19torg-log-bucket"
 }
+
+
+resource "aws_s3_bucket_versioning" "fc19torg_log_bucket" {
+  bucket = aws_s3_bucket.fc19torg_log_bucket.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
 
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "fc19torg_log_bucket" {
@@ -110,7 +130,7 @@ resource "aws_s3_bucket" "frontend" {
   acl    = "private"
 
   versioning {
-    enabled = false
+    enabled = true
   }
 
   server_side_encryption_configuration {
