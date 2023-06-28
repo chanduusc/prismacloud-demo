@@ -5,6 +5,9 @@ resource "aws_s3_bucket" "s3b" {
   # checkov:skip=CKV_AWS_144: Region cross-replication not needed for a demo bucket
   # checkov:skip=CKV_AWS_21: Versioning not needed for a demo bucket
   bucket = var.s3_bucket_name
+  tags = {
+    yor_trace = "7b529035-b5b6-41a9-83f2-c0c06f0357d7"
+  }
 }
 
 resource "aws_s3_bucket_public_access_block" "pab" {

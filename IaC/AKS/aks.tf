@@ -64,6 +64,9 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
     tenant_id          = data.azurerm_subscription.configured.tenant_id
     azure_rbac_enabled = true
   }
+  tags = {
+    yor_trace = "3b9c85da-2651-477a-81bb-476d95f671f3"
+  }
 }
 
 resource "azurerm_resource_provider_registration" "ewip" {
@@ -79,6 +82,9 @@ resource "azurerm_user_assigned_identity" "cnappdemo" {
   name                = "${var.prefix}-wlid"
   resource_group_name = var.create_requirements ? azurerm_resource_group.rg[0].name : var.resource_group_name
   location            = var.region
+  tags = {
+    yor_trace = "b914f742-2fc4-4798-b2d6-769d77c908ea"
+  }
 }
 
 resource "azurerm_federated_identity_credential" "cnappdemo" {

@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "us-east-1"
+  region     = "us-east-1"
   access_key = "123"
   secret_key = "123"
 }
@@ -7,17 +7,26 @@ provider "aws" {
 # Hosted zones
 resource "aws_route53_zone" "findcovidtestingcom" {
   name = "findcovidtesting.com"
+  tags = {
+    yor_trace = "430cee28-4510-4927-a8e8-8ebae6ba1ca5"
+  }
 }
 resource "aws_route53_zone" "findcovid19testingorg" {
   name = "findcovid19testing.org"
+  tags = {
+    yor_trace = "48568cdb-9e56-472c-8f1c-11e07c95e6ee"
+  }
 }
 resource "aws_route53_zone" "codersagainstcovidorg" {
   name = "codersagainstcovid.org"
+  tags = {
+    yor_trace = "a8a52351-7d95-44c8-a452-ab92f23526f5"
+  }
 }
 
 # allows redirect
 resource "aws_s3_bucket" "fc19torg" {
-	# checkov:skip=CKV2_AWS_6: test
+  # checkov:skip=CKV2_AWS_6: test
   bucket = "findcovid19testing.org"
   acl    = "private"
 
@@ -25,11 +34,17 @@ resource "aws_s3_bucket" "fc19torg" {
 
     redirect_all_requests_to = "https://findcovidtesting.com"
   }
+  tags = {
+    yor_trace = "66a57d26-ee15-403b-a338-bec4e82376f6"
+  }
 }
 
 
 resource "aws_s3_bucket" "fc19torg_log_bucket" {
   bucket = "fc19torg-log-bucket"
+  tags = {
+    yor_trace = "bc385a8a-c212-4950-9db3-06a3a316f09a"
+  }
 }
 
 
@@ -38,7 +53,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "fc19torg_log_buck
 
   rule {
     apply_server_side_encryption_by_default {
-      sse_algorithm     = "AES256"
+      sse_algorithm = "AES256"
     }
   }
 }
@@ -122,8 +137,9 @@ resource "aws_s3_bucket" "frontend" {
   }
 
   tags = {
-    Name = "frontend"
+    Name      = "frontend"
     Terraform = "true"
+    yor_trace = "c1e70572-3f6c-49bf-b257-f43d389e5380"
   }
 
   region = "us-east-1"
@@ -155,7 +171,7 @@ data "aws_iam_policy_document" "github" {
 
     resources = [
       "arn:aws:s3:::snfisonfwnoi32joi12/*",
-      
+
     ]
   }
 
@@ -166,7 +182,7 @@ data "aws_iam_policy_document" "github" {
 
     resources = [
       "arn:aws:s3:::snfisonfwnoi32joi12",
-      
+
     ]
   }
 }
@@ -175,6 +191,9 @@ resource "aws_iam_policy" "github" {
   name   = "github_actions"
   path   = "/"
   policy = data.aws_iam_policy_document.github.json
+  tags = {
+    yor_trace = "39a34106-1c89-4ed1-8240-258f3a3346e3"
+  }
 }
 
 resource "aws_iam_user" "github" {
@@ -182,6 +201,7 @@ resource "aws_iam_user" "github" {
   path = "/"
   tags = {
     Terraform = "true"
+    yor_trace = "64f7188a-8f9e-40b3-87b5-cd8e0530e65e"
   }
 }
 
@@ -219,7 +239,7 @@ resource "aws_cloudfront_origin_access_identity" "oai" {
 }
 
 resource "aws_cloudfront_distribution" "s3_distribution" {
-  
+
   origin {
     domain_name = aws_s3_bucket.frontend.bucket_regional_domain_name
     origin_id   = "origin123"
@@ -286,6 +306,9 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
 
   viewer_certificate {
     acm_certificate_arn = "acm-arn-here"
-    ssl_support_method = "sni-only"
+    ssl_support_method  = "sni-only"
+  }
+  tags = {
+    yor_trace = "ed8e4712-4104-4529-ab11-be66341b9f69"
   }
 }

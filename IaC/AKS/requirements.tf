@@ -2,6 +2,9 @@ resource "azurerm_resource_group" "rg" {
   count    = var.create_requirements ? 1 : 0
   name     = "${var.prefix}-rg"
   location = var.region
+  tags = {
+    yor_trace = "9183324d-9565-4a13-b677-44b0e2fde2ce"
+  }
 }
 
 resource "azurerm_virtual_network" "vnet" {
@@ -13,6 +16,9 @@ resource "azurerm_virtual_network" "vnet" {
   subnet {
     name           = "${var.prefix}-subnet"
     address_prefix = "10.0.0.0/22"
+  }
+  tags = {
+    yor_trace = "95f1cbfa-3d95-49c4-bda2-a06b6312a799"
   }
 }
 

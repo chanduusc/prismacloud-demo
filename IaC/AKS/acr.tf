@@ -4,7 +4,9 @@ resource "azurerm_container_registry" "acr" {
   resource_group_name = azurerm_resource_group.rg[0].name
   sku                 = "Basic"
   location            = var.region
-  tags                = var.acr_tags
+  tags = merge(var.acr_tags, {
+    yor_trace = "162b8f98-5b77-45bd-87c7-7281b6916436"
+  })
 }
 
 resource "azurerm_role_assignment" "sp_acr_role" {

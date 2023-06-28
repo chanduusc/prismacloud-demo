@@ -10,6 +10,9 @@ resource "azurerm_storage_account" "storage_acc" {
   location                 = var.region
   account_tier             = "Standard"
   min_tls_version          = "TLS1_2"
+  tags = {
+    yor_trace = "8223b435-54b1-4b7d-b827-5438120bb59b"
+  }
 }
 
 resource "azurerm_storage_container" "storage_container" {

@@ -146,7 +146,8 @@ resource "aws_security_group" "allow_lb_sg" {
   }
 
   tags = {
-    Name = "allow-http"
+    Name      = "allow-http"
+    yor_trace = "398941ba-b485-4d61-a884-db9b2ee893bf"
   }
 }
 
@@ -256,6 +257,9 @@ resource "aws_iam_policy" "describe_cluster_pol" {
       }
     ]
   })
+  tags = {
+    yor_trace = "fc6cd1a5-ac3c-4a57-a717-60bdb7e910c9"
+  }
 }
 
 resource "aws_iam_user_policy_attachment" "describe_cluster_attach" {
