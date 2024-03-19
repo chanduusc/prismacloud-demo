@@ -1,4 +1,5 @@
 on:
+  workflow_dispatch:
   push:
     branches: [ main ]
   pull_request:
@@ -58,12 +59,22 @@ jobs:
         - name: Update Registry URL
           run: |
             sed -i.bak 's/pcgithub.azurecr.io/${{ secrets.REGISTRY_LOGIN_SERVER }}/' aks-deployment.yml
+        - name: Set up deployment environment variables
+          run: |
+            kustomize create --resources aks-deployment.yml,aks-serviceaccount.yaml
+            kustomize edit add patch --kind Deployment --patch '[{"op":"add","path":"/spec/template/spec/containers/0/env","value":[{"name":"BLOB_ENDPOINT","value":"'"${{secrets.BLOB_ENDPOINT}}"'"},{"name":"CONTAINER_NAME","value":"'"${{secrets.CONTAINER_NAME}}"'"}]}]' --group apps
+            if [ -n "${{ secrets.AWI_CLIENTID }}" ]
+            then
+              kustomize edit add patch --kind ServiceAccount --patch '[{"op":"add","path":"/metadata/annotations","value":{"azure.workload.identity/client-id":"'"${{secrets.AWI_CLIENTID}}"'"}}]'
+              kustomize edit add patch --kind Deployment --patch '[{"op":"add","path":"/spec/template/spec/serviceAccountName","value":"workload-identity-sa"}]' --group apps
+            fi
+            kustomize build . -o aks-deployment-kustomized.yml
         - name: Deploy to AKS
           id: deploy-aks
           uses: Azure/k8s-deploy@v4
           with:
             namespace: 'default'
             manifests: |
-              aks-deployment.yml
+              aks-deployment-kustomized.yml
             images: '${{ secrets.REGISTRY_LOGIN_SERVER }}/pythonserver:${{ github.sha }}'
             annotate-namespace: 'false'

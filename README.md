@@ -83,7 +83,7 @@ __**Vulnerability policies are used as example here. Can be used with compliance
 2. Set WAAS rules to protect your applications from real time attacks.
 >We have unrealistic example in wild.py but any imported module can be the bad actor. Requirements.txt scan of code security should have caught it realistically.
 3. Observe the event and alerts to keep track on production application health.
->Use tools like nuclei to simulate attacks --> nuclei -u http://<API Endpoint>/ -t nuclei-templates/f/
+>Use tools like nuclei to simulate attacks --> nuclei -u http://<API Endpoint>/ -t nuclei-templates/f/ (more info : https://medium.com/@cyb_detective/using-nuclei-for-osint-5-minute-basic-guide-f8764424902b )
 
 ![Runtime policy - PC](img/runtime_policy.png "Runtime policy - PC")
 ![Runtime audit - PC](img/runtime_audit_pc.png "Runtime audit - PC")

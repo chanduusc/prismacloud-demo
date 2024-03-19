@@ -4,6 +4,7 @@ resource "null_resource" "run_provisioner" {
     environment = {
       CSP                      = "AWS",
       AWS_EKS_NAME             = module.eks.cluster_id,
+      AWS_EKS_VERSION          = module.eks.cluster_version,
       ARGOCD_GITOPS_REPOSITORY = var.argocd_git_repo,
       GITHUB_TOKEN             = var.gh_token,
       PCC_USER                 = var.pcc_user,

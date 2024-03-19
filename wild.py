@@ -17,13 +17,16 @@ unique_hipaa_filename =  str(uuid.uuid4().hex)+ '-' + str(datetime.datetime.now(
 cloud_provider = platform.uname()[2]
 if 'amzn' in cloud_provider:
     s3 = boto3.resource('s3')
-    s3.meta.client.upload_file('/plz_del/FritzFrog/001eb377f0452060012124cb214f658754c7488ccb82e23ec56b2f45a636c859', 'cnappdemo' , unique_malware_filename)
-    s3.meta.client.upload_file('/plz_del/FritzFrog/10-MB-Test.docx', 'cnappdemo' , unique_sensitive_filename, ExtraArgs={'ACL':'public-read'})
-    s3.meta.client.upload_file('/plz_del/FritzFrog/clia-lab-search-results-02.22.2023-19_43_13.csv', 'cnappdemo' , unique_hipaa_filename, ExtraArgs={'ACL':'public-read'})
+    bucketname = os.environ.get("S3_BUCKET_NAME") if "S3_BUCKET_NAME" in os.environ else "cnappdemo"
+    s3.meta.client.upload_file('/plz_del/FritzFrog/001eb377f0452060012124cb214f658754c7488ccb82e23ec56b2f45a636c859', bucketname, unique_malware_filename)
+    s3.meta.client.upload_file('/plz_del/FritzFrog/10-MB-Test.docx', bucketname, unique_sensitive_filename, ExtraArgs={'ACL':'public-read'})
+    s3.meta.client.upload_file('/plz_del/FritzFrog/clia-lab-search-results-02.22.2023-19_43_13.csv', bucketname, unique_hipaa_filename, ExtraArgs={'ACL':'public-read'})
 elif 'azure' in cloud_provider:
+    blob_endpoint = os.environ["BLOB_ENDPOINT"] if "BLOB_ENDPOINT" in os.environ else "https://cnappdemo.blob.core.windows.net/"
+    container_name = os.environ["CONTAINER_NAME"] if "CONTAINER_NAME" in os.environ else "cnappdemo"
     default_credential = DefaultAzureCredential()
-    blob_service_client = BlobServiceClient("https://cnappdemo.blob.core.windows.net/",credential=default_credential)
-    container_client = blob_service_client.get_container_client("cnappdemo")
+    blob_service_client = BlobServiceClient(blob_endpoint,credential=default_credential)
+    container_client = blob_service_client.get_container_client(container_name)
     with open('/plz_del/FritzFrog/001eb377f0452060012124cb214f658754c7488ccb82e23ec56b2f45a636c859', "rb") as data:
             blob_client = container_client.upload_blob(name=unique_malware_filename, data=data)
     with open('/plz_del/FritzFrog/10-MB-Test.docx', "rb") as data:
@@ -40,6 +43,7 @@ class MyServer(BaseHTTPRequestHandler):
         self.send_header("Content-type", "text/html")
         self.end_headers()
         self.wfile.write(bytes("<html><head><title>Prisma Cloud CNAPP Darwin Demo with out policy</title></head>", "utf-8"))
+        self.wfile.write(bytes("<html><head><title>Prisma Cloud Demo without block policy</title></head>", "utf-8"))
         self.wfile.write(bytes("<p>Host Requested: %s</p>" % self.headers.get('Host'), "utf-8"))
         self.wfile.write(bytes("<p>XFF Requested: %s</p>" % self.headers.get("X-Forwarded-For"), "utf-8"))
         self.wfile.write(bytes("<p>Command: %s</p>" % self.command, "utf-8"))

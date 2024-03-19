@@ -15,6 +15,20 @@ resource "google_compute_subnetwork" "subnet" {
   }
 }
 
+resource "google_compute_router" "router" {
+  count   = var.create_requirements ? 1 : 0
+  name    = "${var.prefix}-router"
+  network = google_compute_network.vpc[0].id
+}
+
+resource "google_compute_router_nat" "nat" {
+  count                              = var.create_requirements ? 1 : 0
+  name                               = "${var.prefix}-nat"
+  router                             = google_compute_router.router[0].name
+  nat_ip_allocate_option             = "AUTO_ONLY"
+  source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
+}
+
 resource "google_service_account" "service_account" {
   count      = var.create_requirements ? 1 : 0
   account_id = "${var.prefix}-githubaction"

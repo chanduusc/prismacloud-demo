@@ -4,15 +4,13 @@ resource "random_string" "password" {
   special = false
 }
 
-provider "azurerm" {
-  #version = "=1.38.0"
-  subscription_id = var.subscription_id
-  tenant_id       = var.tenant_id
-  features {}
-}
-
 data "azurerm_subscription" "configured" {
   subscription_id = var.subscription_id
+}
+
+data "azurerm_kubernetes_cluster" "aks_cluster" {
+  name                = azurerm_kubernetes_cluster.aks_cluster.name
+  resource_group_name = azurerm_kubernetes_cluster.aks_cluster.resource_group_name
 }
 
 resource "azurerm_kubernetes_cluster" "aks_cluster" {
@@ -20,10 +18,16 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
   # checkov:skip=CKV_AZURE_117: Disks are already encrypted at rest with Azure manged keys, which is sufficient for a demo cluster
   # checkov:skip=CKV_AZURE_4: No need for cluster telemetry (performance/availability) for a demo cluster
   # checkov:skip=CKV_AZURE_6: Cannot use trusted networks because of 200 IP limit with GH actions
-  name                = "${var.prefix}-${random_string.password.result}"
-  location            = var.region
-  resource_group_name = var.create_requirements ? azurerm_resource_group.rg[0].name : var.resource_group_name
-  dns_prefix          = "${var.prefix}-${random_string.password.result}"
+  name                      = "${var.prefix}-${random_string.password.result}"
+  location                  = var.region
+  resource_group_name       = var.create_requirements ? azurerm_resource_group.rg[0].name : var.resource_group_name
+  dns_prefix                = "${var.prefix}-${random_string.password.result}"
+  oidc_issuer_enabled       = true
+  workload_identity_enabled = true
+  automatic_channel_upgrade = "stable"
+  depends_on = [
+    azurerm_resource_provider_registration.ewip
+  ]
 
   default_node_pool {
     name                = "poolone"
@@ -60,6 +64,30 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
     tenant_id          = data.azurerm_subscription.configured.tenant_id
     azure_rbac_enabled = true
   }
+}
+
+resource "azurerm_resource_provider_registration" "ewip" {
+  name = "Microsoft.ContainerService"
+
+  feature {
+    name       = "EnableWorkloadIdentityPreview"
+    registered = true
+  }
+}
+
+resource "azurerm_user_assigned_identity" "cnappdemo" {
+  name                = "${var.prefix}-wlid"
+  resource_group_name = var.create_requirements ? azurerm_resource_group.rg[0].name : var.resource_group_name
+  location            = var.region
+}
+
+resource "azurerm_federated_identity_credential" "cnappdemo" {
+  name                = "${var.prefix}-wlid"
+  resource_group_name = azurerm_user_assigned_identity.cnappdemo.resource_group_name
+  issuer              = azurerm_kubernetes_cluster.aks_cluster.oidc_issuer_url
+  parent_id           = azurerm_user_assigned_identity.cnappdemo.id
+  audience            = ["api://AzureADTokenExchange"]
+  subject             = "system:serviceaccount:default:workload-identity-sa"
 }
 
 resource "azurerm_role_assignment" "admin_aks_rbac" {

@@ -56,3 +56,27 @@ resource "github_actions_secret" "cluster_name" {
   # checkov:skip=CKV_SECRET_6: not a secret
   plaintext_value = azurerm_kubernetes_cluster.aks_cluster.name
 }
+
+resource "github_actions_secret" "blob_endpoint" {
+  count       = var.create_requirements && var.create_storage ? 1 : 0
+  repository  = var.gh_repo
+  secret_name = "BLOB_ENDPOINT"
+  # checkov:skip=CKV_SECRET_6: not a secret
+  plaintext_value = azurerm_storage_account.storage_acc[0].primary_blob_endpoint
+}
+
+resource "github_actions_secret" "container_name" {
+  count       = var.create_requirements && var.create_storage ? 1 : 0
+  repository  = var.gh_repo
+  secret_name = "CONTAINER_NAME"
+  # checkov:skip=CKV_SECRET_6: not a secret
+  plaintext_value = azurerm_storage_container.storage_container[0].name
+}
+
+resource "github_actions_secret" "awi_clientid" {
+  count       = var.create_requirements ? 1 : 0
+  repository  = var.gh_repo
+  secret_name = "AWI_CLIENTID"
+  # checkov:skip=CKV_SECRET_6: not a secret
+  plaintext_value = azurerm_user_assigned_identity.cnappdemo.client_id
+}
