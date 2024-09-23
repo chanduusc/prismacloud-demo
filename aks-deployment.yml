@@ -16,6 +16,7 @@ spec:
       labels:
         aadpodidbinding: cnappdemo
         app: python-server-app
+        azure.workload.identity/use: "true"
     spec:
       containers:
         - name: python-server-app

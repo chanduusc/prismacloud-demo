@@ -1,4 +1,5 @@
 on:
+  workflow_dispatch:
   push:
     branches: [ main ]
   pull_request:
@@ -55,7 +56,8 @@ jobs:
         pcc_console_url: ${{ secrets.PCC_CONSOLE_URL }}
         pcc_user: ${{ secrets.PCC_USER }}
         pcc_pass: ${{ secrets.PCC_PASS }}
-        image_name: gcr.io/${{ secrets.GKE_PROJECT }}/${{ secrets.IMAGE }}:${{ github.sha }}  
+        image_name: gcr.io/${{ secrets.GKE_PROJECT }}/${{ secrets.IMAGE }}:${{ github.sha }}
+        project: "GKE Demo"
   # Push the Docker image to Google Container Registry
     - name: Publish
       run: |-
