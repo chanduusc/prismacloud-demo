@@ -21,7 +21,7 @@ pluggy==0.13.1
 py==1.10.0
 pyparsing==2.4.7
 pytest==6.2.2
-requests==2.25.1
+requests==2.32.2
 six==1.15.0
 supervisor==4.2.2
 toml==0.10.2
