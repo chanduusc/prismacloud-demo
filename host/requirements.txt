@@ -15,7 +15,7 @@ idna==2.10
 iniconfig==1.1.1
 itsdangerous==1.1.0
 Jinja2==2.11.3
-MarkupSafe==1.1.1
+MarkupSafe==3.0.2
 packaging==20.9
 pluggy==0.13.1
 py==1.10.0
